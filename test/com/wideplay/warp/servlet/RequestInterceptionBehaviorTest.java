@@ -25,6 +25,7 @@ public class RequestInterceptionBehaviorTest {
     private Injector injector;
     private static String interceptedRemoteUser;
     private static boolean proxiedCorrectly;
+    private static final String ORIGINAL_USER = "originalUser";
 
     @BeforeMethod
     void setupFilterChain() {
@@ -41,7 +42,7 @@ public class RequestInterceptionBehaviorTest {
         //setup the proxy that will be used by the filter to intercept the request
 
         //reset
-        interceptedRemoteUser = "";
+        interceptedRemoteUser = "intercepted";
     }
 
     @Test
@@ -64,6 +65,10 @@ public class RequestInterceptionBehaviorTest {
         expect(request.getRequestURI())
                 .andReturn("/thing/index.html")
                 .times(2);
+
+        expect(request.getRemoteUser())
+                .andReturn(ORIGINAL_USER)
+                .once();
 
 
 
@@ -99,6 +104,7 @@ public class RequestInterceptionBehaviorTest {
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
             final HttpServletRequestWrapper httpServletRequestWrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest) {
                 public String getRemoteUser() {
+                    assert ORIGINAL_USER.equals(super.getRemoteUser()) : "original user was not as expected...";
                     return remoteUser;
                 }
             };
@@ -121,7 +127,10 @@ public class RequestInterceptionBehaviorTest {
         }
 
         public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
-            proxiedCorrectly = proxy.equals(((HttpServletRequest)servletRequest).getRemoteUser());
+            final String remoteUser = ((HttpServletRequest) servletRequest).getRemoteUser();
+            proxiedCorrectly = proxy.equals(remoteUser);
+
+            assert !ORIGINAL_USER.equals(remoteUser) : "did not get proxied correctly";
         }
 
         public void destroy() {
