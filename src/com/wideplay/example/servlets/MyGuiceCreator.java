@@ -22,7 +22,7 @@ public class MyGuiceCreator extends WarpServletContextListener {
                     .filter("/*").through(RequestPrintingFilter.class)
 
                 .servlets()
-                    .serve("/index.html").with(IndexServlet.class)
+                    .serve("/index.html").with(MyIndexServlet.class)
 
                 .buildModule()
         );
