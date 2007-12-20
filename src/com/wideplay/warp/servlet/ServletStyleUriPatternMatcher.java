@@ -22,6 +22,7 @@ class ServletStyleUriPatternMatcher implements UriPatternMatcher {
             return uri.startsWith(pattern.substring(0, pattern.length() - 1));
         }
 
-        throw new IllegalArgumentException("URI Pattern invalid for servlet-style pattern matching: " + pattern);
+        //else treat as a literal
+        return pattern.equals(uri);
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+
+    <!-- register our listener here so it creates and stashes the Guice injector for Warp::servlet -->
+    <listener>
+        <listener-class>com.wideplay.example.servlets.MyGuiceCreator</listener-class>
+    </listener>
+
+
+
+    
+    <!-- standard mapping routes all requests to the warp-servlet WebFilter -->
+    <filter>
+        <filter-name>webFilter</filter-name>
+        <filter-class>com.wideplay.warp.servlet.WebFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>webFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <!-- send users to index.html which is served by a warp-managed servlet -->
+    <welcome-file-list>
+        <welcome-file>/index.html</welcome-file>
+    </welcome-file-list>
+</web-app>

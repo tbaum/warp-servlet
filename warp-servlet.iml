@@ -40,23 +40,23 @@
             <url>jar://$APPLICATION_HOME_DIR$/lib/javaee.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/easymock.jar" />
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
             <url>jar://$MODULE_DIR$/lib/easymock.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib" />
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/guice-1.0.jar" />
             <url>jar://$MODULE_DIR$/lib/guice-1.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib" />
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/jcip-annotations.jar" />
             <url>jar://$MODULE_DIR$/lib/jcip-annotations.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/testng-5.5-jdk15.jar" />
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
             <url>jar://$MODULE_DIR$/lib/testng-5.5-jdk15.jar!/</url>
           </containerElement>
           <containerElement type="module" name="warp-servlet">

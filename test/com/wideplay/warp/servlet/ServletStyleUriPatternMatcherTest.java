@@ -22,6 +22,7 @@ public class ServletStyleUriPatternMatcherTest {
                 { "/public/login.html", "*.html", true },
                 { "/public/login.html", "/public/space/*", false },
                 { "/public/login.html", "*.xhtml", false},
+                { "/public/login.html", "/public/login.html", true },
         };
     }
 
