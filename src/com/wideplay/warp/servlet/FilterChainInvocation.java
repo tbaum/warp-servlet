@@ -41,11 +41,6 @@ class FilterChainInvocation implements FilterChain {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
-
-        //no filters to run?
-        if (filterDefinitions.isEmpty())
-            return;
-
         index++;
 
         //dispatch down the chain while there are more filters

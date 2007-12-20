@@ -25,6 +25,8 @@ import com.google.inject.Scope;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -100,4 +102,50 @@ public final class Servlets {
             return "Servlets.SESSION_SCOPE";
         }
     };
+
+    /**
+     * "Flash" scope. A scope popular among flow-like frameworks for scoping objects <em>between</em> successive requests.
+     */
+    public static final Scope FLASH_SCOPE = new Scope() {
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+            final String flashMapKey = this.toString();
+
+            return new Provider<T>() {
+
+                @SuppressWarnings("unchecked")
+                public T get() {
+                    final HttpSession session = ContextManager.getRequest().getSession();
+
+                    //attempt to locate the flashMap (or create one if necessary)
+                    Map<Key<T>, Object> flashMap;
+
+                    synchronized (session) {
+                        flashMap = (Map<Key<T>, Object>) session.getAttribute(flashMapKey);
+                        if (null == flashMap) {
+                            flashMap = new HashMap<Key<T>, Object>();
+                            session.setAttribute(flashMapKey, flashMap);
+                        }
+                    }
+
+                    //find value in flash scope
+                    synchronized (flashMap) {
+                        @SuppressWarnings("unchecked")
+                        T t = (T) flashMap.get(key);
+                        if (null == t) {    //none found, create a new one
+                            t = creator.get();
+                            flashMap.put(key, t);
+                        } else
+                            flashMap.remove(key);    //found, remove for next request
+
+                        return t;
+                    }
+                }
+            };
+        }
+
+        public String toString() {
+            return "Servlets.FLASH_SCOPE";
+        }
+    };
+
 }
