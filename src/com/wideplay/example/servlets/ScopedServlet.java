@@ -28,10 +28,9 @@ import java.util.logging.Logger;
  */
 @RequestScoped
 public class ScopedServlet extends HttpServlet {
-    @Inject
-    Logger logger;
 
-    public ScopedServlet() {
+    @Inject
+    public ScopedServlet(Logger logger) {
         logger.info(ScopedServlet.class.getName() + " instantiated!");
     }
 
