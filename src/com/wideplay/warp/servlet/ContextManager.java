@@ -52,6 +52,7 @@ class ContextManager {
 
     //absolutely must be called at the end of a request
     static void unset() {
+
         localContext.remove();
     }
 

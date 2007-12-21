@@ -71,6 +71,7 @@ public final class Servlets {
             };
         }
 
+        @Override
         public String toString() {
             return "Servlets.REQUEST_SCOPE";
         }
@@ -98,6 +99,7 @@ public final class Servlets {
             };
         }
 
+        @Override
         public String toString() {
             return "Servlets.SESSION_SCOPE";
         }
@@ -114,28 +116,52 @@ public final class Servlets {
 
                 @SuppressWarnings("unchecked")
                 public T get() {
-                    final HttpSession session = ContextManager.getRequest().getSession();
+                    final HttpServletRequest request = ContextManager.getRequest();
+                    final HttpSession session = request.getSession();
 
-                    //attempt to locate the flashMap (or create one if necessary)
-                    Map<Key<T>, Object> flashMap;
+                    //attempt to locate the flashMap from the session (or create one if necessary)
+                    Map<Key<T>, Object> requestFlashCache;
 
-                    synchronized (session) {
-                        flashMap = (Map<Key<T>, Object>) session.getAttribute(flashMapKey);
-                        if (null == flashMap) {
-                            flashMap = new HashMap<Key<T>, Object>();
-                            session.setAttribute(flashMapKey, flashMap);
+                    //create a request-flashmap too
+                    synchronized (request) {
+                        requestFlashCache = (Map<Key<T>, Object>) request.getAttribute(flashMapKey); //ok to use the same key
+                        if (null == requestFlashCache) {
+                            requestFlashCache = new HashMap<Key<T>, Object>();
+                            request.setAttribute(flashMapKey, requestFlashCache);
                         }
                     }
 
-                    //find value in flash scope
-                    synchronized (flashMap) {
-                        @SuppressWarnings("unchecked")
-                        T t = (T) flashMap.get(key);
-                        if (null == t) {    //none found, create a new one
-                            t = creator.get();
-                            flashMap.put(key, t);
-                        } else
-                            flashMap.remove(key);    //found, remove for next request
+
+                    //now attempt to fetch the scoped object from request first, then session, caching in either place
+                    synchronized (requestFlashCache) {
+                        T t = (T) requestFlashCache.get(key);
+
+                        //look in session cache
+                        if (null == t) {
+                            //we must cache flash-scoped objects twice, once in session and again in request
+                            Map<Key<T>, Object> sessionFlashCache;
+                            synchronized (session) {
+                                sessionFlashCache = (Map<Key<T>, Object>) session.getAttribute(flashMapKey);
+                                if (null == sessionFlashCache) {
+                                    sessionFlashCache = new HashMap<Key<T>, Object>();
+                                    session.setAttribute(flashMapKey, sessionFlashCache);
+                                }
+                            }
+
+                            synchronized (sessionFlashCache) {
+                                t = (T) sessionFlashCache.get(key);
+
+                                //if it's missing even from the session cache, then create one
+                                if (null == t) {
+                                    t = creator.get();
+                                    sessionFlashCache.put(key, t);
+                                }
+                                else
+                                    sessionFlashCache.remove(key);  //destroy on every second fetch from session
+                            }
+
+                            requestFlashCache.put(key, t);
+                        }
 
                         return t;
                     }
@@ -143,6 +169,7 @@ public final class Servlets {
             };
         }
 
+        @Override
         public String toString() {
             return "Servlets.FLASH_SCOPE";
         }

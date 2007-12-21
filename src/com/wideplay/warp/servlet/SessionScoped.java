@@ -1,5 +1,7 @@
 package com.wideplay.warp.servlet;
 
+import com.google.inject.ScopeAnnotation;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -20,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
+@ScopeAnnotation
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SessionScoped {
 }
