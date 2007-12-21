@@ -1,6 +1,7 @@
-package com.wideplay.warp.servlet;
+package com.wideplay.warp.servlet.uri;
 
 import net.jcip.annotations.Immutable;
+import com.wideplay.warp.servlet.uri.UriPatternMatcher;
 
 /**
  * Created with IntelliJ IDEA.

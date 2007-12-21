@@ -1,13 +1,14 @@
-package com.wideplay.warp.servlet;
+package com.wideplay.warp.servlet.uri;
+
 
 /**
-     * An enumeration of the available URI-pattern matching styles
+ * An enumeration of the available URI-pattern matching styles
  */
-enum UriPatternType {
+public enum UriPatternType {
     SERVLET, REGEX, ANT_PATH,
     ;
 
-    static UriPatternMatcher get(UriPatternType type) {
+    public static UriPatternMatcher get(UriPatternType type) {
         switch (type) {
             case SERVLET:
                 return new ServletStyleUriPatternMatcher();

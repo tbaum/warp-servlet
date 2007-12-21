@@ -3,6 +3,7 @@ package com.wideplay.warp.servlet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.wideplay.warp.servlet.uri.UriPatternType;
 import net.jcip.annotations.NotThreadSafe;
 
 import javax.servlet.Filter;

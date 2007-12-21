@@ -3,6 +3,7 @@ package com.wideplay.warp.servlet;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.wideplay.warp.servlet.uri.UriPatternType;
 import net.jcip.annotations.NotThreadSafe;
 
 import javax.servlet.http.HttpServlet;
@@ -48,7 +49,7 @@ class ServletsModuleBuilder extends AbstractModule implements ServletBindingBuil
     }
 
     public ServletKeyBindingBuilder serveRegex(String regex) {
-        return new ServletKeyBindingBuilderImpl(regex, UriPatternType.REGEX);        
+        return new ServletKeyBindingBuilderImpl(regex, UriPatternType.REGEX);
     }
 
     public Module buildModule() {

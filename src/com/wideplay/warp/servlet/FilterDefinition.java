@@ -2,6 +2,7 @@ package com.wideplay.warp.servlet;
 
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import com.wideplay.warp.servlet.uri.UriPatternMatcher;
 import net.jcip.annotations.Immutable;
 
 import javax.servlet.*;

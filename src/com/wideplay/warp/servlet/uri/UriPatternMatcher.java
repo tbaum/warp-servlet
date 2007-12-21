@@ -1,4 +1,4 @@
-package com.wideplay.warp.servlet;
+package com.wideplay.warp.servlet.uri;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,6 +13,6 @@ package com.wideplay.warp.servlet;
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
-interface UriPatternMatcher {
+public interface UriPatternMatcher {
     boolean matches(String uri, String pattern);
 }
