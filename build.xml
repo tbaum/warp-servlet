@@ -1,0 +1,67 @@
+<project name="warp-servlet" default="build">
+
+    <property file="build.properties"/>
+
+    <path id="warp-servlet.classpath">
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+
+    <target name="clean" description="deletes target dirs">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="init" description="creates target dirs">
+        <mkdir dir="${build}"/>
+    </target>
+
+    <target name="build" depends="init" description="compiles and tests warp-servlet">
+        <javac srcdir="${src}" destdir="${build}" debug="on">
+            <classpath refid="warp-servlet.classpath"/>
+        </javac>
+
+        <javac srcdir="${test}" destdir="${build}" debug="on">
+            <classpath refid="warp-servlet.classpath"/>
+        </javac>
+
+
+        <taskdef name="testng" classname="org.testng.TestNGAntTask">
+            <classpath refid="warp-servlet.classpath"/>
+        </taskdef>
+
+        <!-- run them with testng -->
+        <testng haltonfailure="true" verbose="2" suitename="warp-servlet unit tests">
+            <classpath>
+                <path refid="warp-servlet.classpath"/>
+
+                <pathelement location="${build}"/>
+            </classpath>
+
+            <classfileset dir="${build}" includes="**/*Test.class"/>
+        </testng>
+    </target>
+
+    <target name="assemble.jar" depends="build" description="packages warp-servlet into a library jar">
+        <jar basedir="${build}" destfile="${dist}/warp-servlet.jar">
+            <exclude name="com/wideplay/example/**"/>
+        </jar>
+
+
+        <taskdef name="testng" classname="org.testng.TestNGAntTask">
+            <classpath refid="warp-servlet.classpath"/>
+        </taskdef>
+
+        <!-- test jar with testng -->
+        <testng haltonfailure="true" verbose="2" suitename="warp-servlet unit tests">
+            <classpath>
+                <path refid="warp-servlet.classpath"/>
+
+                <pathelement location="${dist}/warp-servlet.jar"/>
+            </classpath>
+
+            <classfileset dir="${build}" includes="**/*Test.class"/>
+        </testng>
+    </target>
+</project>
