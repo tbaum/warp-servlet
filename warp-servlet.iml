@@ -30,18 +30,8 @@
             <attribute name="URI" value="/WEB-INF/classes" />
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="0" />
-            <attribute name="URI" value="&lt;N/A&gt;" />
-            <url>jar://$APPLICATION_HOME_DIR$/lib/j2ee.jar!/</url>
-          </containerElement>
-          <containerElement type="library" level="module">
-            <attribute name="method" value="0" />
-            <attribute name="URI" value="&lt;N/A&gt;" />
-            <url>jar://$APPLICATION_HOME_DIR$/lib/javaee.jar!/</url>
-          </containerElement>
-          <containerElement type="library" level="module">
-            <attribute name="method" value="0" />
-            <attribute name="URI" value="&lt;N/A&gt;" />
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/easymock.jar" />
             <url>jar://$MODULE_DIR$/lib/easymock.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -50,14 +40,19 @@
             <url>jar://$MODULE_DIR$/lib/guice-1.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/jcip-annotations.jar" />
-            <url>jar://$MODULE_DIR$/lib/jcip-annotations.jar!/</url>
-          </containerElement>
-          <containerElement type="library" level="module">
             <attribute name="method" value="0" />
             <attribute name="URI" value="&lt;N/A&gt;" />
+            <url>jar://$MODULE_DIR$/lib/javaee.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/testng-5.5-jdk15.jar" />
             <url>jar://$MODULE_DIR$/lib/testng-5.5-jdk15.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/warp-jcip-annotations.jar" />
+            <url>jar://$MODULE_DIR$/lib/warp-jcip-annotations.jar!/</url>
           </containerElement>
           <containerElement type="module" name="warp-servlet">
             <attribute name="method" value="1" />
@@ -80,25 +75,16 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/j2ee.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/easymock.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/testng-5.5-jdk15.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/javaee.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -116,24 +102,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jcip-annotations.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/jcip-annotations.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/easymock.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -143,7 +111,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/testng-5.5-jdk15.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/warp-jcip-annotations.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -152,16 +120,20 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/guice-1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/spring-webmvc.jar!/" />
         </CLASSES>
-        <JAVADOC />
-        <SOURCES />
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/../lib/spring-framework-2.5/docs/api" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../lib/spring-framework-2.5/src" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/javaee.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/spring-web.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
