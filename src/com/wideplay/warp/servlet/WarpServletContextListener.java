@@ -35,12 +35,18 @@ public abstract class WarpServletContextListener
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
-        servletContext.setAttribute(INJECTOR_NAME, getInjector());
+
+        final Injector injector = getInjector();
+        servletContext.setAttribute(INJECTOR_NAME, injector);
+        ContextManager.setInjector(injector);
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
         servletContext.removeAttribute(INJECTOR_NAME);
+        
+        //clear internal context
+        ContextManager.setInjector(null);
     }
 
     /**

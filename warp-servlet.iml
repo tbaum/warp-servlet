@@ -120,20 +120,52 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/spring-webmvc.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/wicket-guice-1.3.0-rc2.jar!/" />
         </CLASSES>
-        <JAVADOC>
-          <root url="file://$MODULE_DIR$/../lib/spring-framework-2.5/docs/api" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../lib/spring-framework-2.5/src" />
-        </SOURCES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/spring-web.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/wicket-1.3.0-rc2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/slf4j-api-1.4.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/logback-classic-0.9.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/logback-core-0.9.8.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/wicket-ioc-1.3.0-rc2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

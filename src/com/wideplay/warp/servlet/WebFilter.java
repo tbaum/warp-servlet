@@ -23,18 +23,23 @@ public final class WebFilter implements Filter {
         final ServletContext servletContext = filterConfig.getServletContext();
         
         //get and cache injector in ContextManager
-        final Injector injector = (Injector) servletContext.getAttribute(WarpServletContextListener.INJECTOR_NAME);
+        Injector injector = ContextManager.getInjector();
 
-        //an injector *must* be available as a servlet context param (registered by a ServletContextListener)
-        if (null == injector)
-            throw new ServletException(
-                    "Cannot run WebFilter without an injector present in the ServletContext attributes. Did you forget " +
-                    "to register a subclass of " + WarpServletContextListener.class.getName() + " in web.xml? Or did you try to roll " +
-                    "your own but forget to register the injector under key: " +  WarpServletContextListener.INJECTOR_NAME + "?"
-            );
+        //if not available via internal contextmanager...try servletcontext
+        if (null == injector) {
+            //an injector *must* be available as a servlet context param (registered by a ServletContextListener)
+            injector = (Injector) servletContext.getAttribute(WarpServletContextListener.INJECTOR_NAME);
 
-        ContextManager.setInjector(injector);
+            if (null == injector)
+                throw new ServletException(
+                        "Cannot run WebFilter without an injector present in the ServletContext attributes. Did you forget " +
+                        "to register a subclass of " + WarpServletContextListener.class.getName() + " in web.xml? Or did you try to roll " +
+                        "your own but forget to register the injector under key: " +  WarpServletContextListener.INJECTOR_NAME + "?"
+                );
 
+            //let's store this one we've found...
+            ContextManager.setInjector(injector);
+        }
 
         //initialize all registered filters & servlets in that order
         injector.getInstance(ManagedFilterPipeline.class)
