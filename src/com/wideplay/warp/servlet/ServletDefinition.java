@@ -22,7 +22,8 @@ import java.util.Map;
  *
  * <p>
  *
- *  An internal representation of a filter definition against a particular URI pattern.
+ *  An internal representation of a servlet definition against a particular URI pattern, also performs
+ *  the request dispatch.
  * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
@@ -32,13 +33,13 @@ class ServletDefinition {
     private final String pattern;
     private final Key<? extends HttpServlet> servletKey;
     private final UriPatternMatcher patternMatcher;
-    private final Map<String, String> contextParams;
+    private final Map<String, String> initParams;
 
-    public ServletDefinition(String pattern, Key<? extends HttpServlet> servletKey, UriPatternMatcher patternMatcher, Map<String, String> contextParams) {
+    public ServletDefinition(String pattern, Key<? extends HttpServlet> servletKey, UriPatternMatcher patternMatcher, Map<String, String> initParams) {
         this.pattern = pattern;
         this.servletKey = servletKey;
         this.patternMatcher = patternMatcher;
-        this.contextParams = Collections.unmodifiableMap(contextParams);
+        this.initParams = Collections.unmodifiableMap(initParams);
     }
 
     private boolean shouldServe(String uri) {
@@ -61,13 +62,13 @@ class ServletDefinition {
             }
 
             public String getInitParameter(String s) {
-                return contextParams.get(s);
+                return initParams.get(s);
             }
 
             public Enumeration getInitParameterNames() {
                 //noinspection InnerClassTooDeeplyNested,AnonymousInnerClassWithTooManyMethods
                 return new Enumeration() {
-                    private final Iterator<String> paramNames = contextParams.keySet().iterator();
+                    private final Iterator<String> paramNames = initParams.keySet().iterator();
 
                     public boolean hasMoreElements() {
                         return paramNames.hasNext();
@@ -88,6 +89,17 @@ class ServletDefinition {
         httpServlet.destroy();
     }
 
+    /**
+     *
+     * @param injector The Guice Injector
+     * @param servletRequest Current HTTP request
+     * @param servletResponse Current HTTP response
+     * @return Returns true if this servlet triggered for the given request. Or false if warp-servlet
+     *  should continue dispatching down the servlet pipeline.
+     *
+     * @throws IOException If thrown by underlying servlet
+     * @throws ServletException If thrown by underlying servlet
+     */
     public boolean service(Injector injector, ServletRequest servletRequest, ServletResponse servletResponse)
             throws IOException, ServletException {
 
@@ -99,7 +111,7 @@ class ServletDefinition {
                 .service(servletRequest, servletResponse);
 
 
-        //return false if no servlet match (so we can proceed down the to the webapp's servlets)
+        //return false if no servlet matched (so we can proceed down the to the webapp's servlets)
         return serve;
     }
 }

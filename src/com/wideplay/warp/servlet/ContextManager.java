@@ -19,10 +19,10 @@
 package com.wideplay.warp.servlet;
 
 import com.google.inject.Injector;
+import net.jcip.annotations.ThreadSafe;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,15 +30,27 @@ import java.util.concurrent.atomic.AtomicReference;
  * Date: Dec 19, 2007
  * Time: 2:35:22 PM
  *
+ * Manages the current "context" for warp-servlet internally as regards sessions,
+ * requests, injectors and conversations. Everything is thread local except the
+ * injector which is a static singleton =(
+ *
+ *
  * @author crazybob@google.com (Bob Lee), Dhanji R. Prasanna (dhanji gmail com)
  */
+@ThreadSafe
 class ContextManager {
 
+    //after publication by calling setInjector(), is effectively immutable
     private static volatile Injector globalInjector = null;
+
     private static final ThreadLocal<Context> localContext = new ThreadLocal<Context>();
 
 
     static void setInjector(Injector injector) {
+        if (null != injector && null != globalInjector)
+            throw new IllegalStateException("Tried to set an Injector when one has already been set. " +
+                    "Did you accidentally register two WebFilters?");
+
         globalInjector = injector;
     }
 
@@ -64,7 +76,7 @@ class ContextManager {
         return getContext().getResponse();
     }
 
-    static Context getContext() {
+    private static Context getContext() {
         Context context = localContext.get();
         if (context == null) {
             throw new OutOfScopeException("Cannot access scoped object. Either we"
@@ -77,12 +89,14 @@ class ContextManager {
 
     static class Context {
 
-        final HttpServletRequest request;
-        final HttpServletResponse response;
+        private final HttpServletRequest request;
+        private final HttpServletResponse response;
 
         Context(HttpServletRequest request, HttpServletResponse response) {
             this.request = request;
             this.response = response;
+
+
         }
 
         HttpServletRequest getRequest() {

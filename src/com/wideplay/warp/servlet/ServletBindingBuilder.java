@@ -2,8 +2,6 @@ package com.wideplay.warp.servlet;
 
 import com.google.inject.Module;
 
-import javax.servlet.Servlet;
-
 /**
  * Created with IntelliJ IDEA.
  * User: dhanji

@@ -5,9 +5,9 @@ import com.google.inject.Singleton;
 import net.jcip.annotations.Immutable;
 
 import javax.servlet.*;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.

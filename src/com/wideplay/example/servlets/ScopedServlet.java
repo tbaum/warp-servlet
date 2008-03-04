@@ -1,13 +1,12 @@
 package com.wideplay.example.servlets;
 
-import com.google.inject.Singleton;
 import com.google.inject.Inject;
 import com.wideplay.warp.servlet.RequestScoped;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Logger;

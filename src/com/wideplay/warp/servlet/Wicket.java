@@ -1,10 +1,10 @@
 package com.wideplay.warp.servlet;
 
-import org.apache.wicket.guice.GuiceComponentInjector;
-import org.apache.wicket.Application;
-import org.apache.wicket.protocol.http.WicketFilter;
 import com.google.inject.Injector;
 import com.google.inject.util.Objects;
+import org.apache.wicket.Application;
+import org.apache.wicket.guice.GuiceComponentInjector;
+import org.apache.wicket.protocol.http.WicketFilter;
 
 /**
  * Created with IntelliJ IDEA.

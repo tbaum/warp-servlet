@@ -14,6 +14,13 @@ import java.io.IOException;
  * Date: Dec 19, 2007
  * Time: 12:59:48 PM
  *
+ * <p>
+ * Register this filter in web.xml above all other filters (typically), this is needed in order to
+ * dispatch requests to warp-servlet managed filters and servlets.
+ *
+ * Take a look at http://www.wideplay.com for more details and examples.
+ * </p>
+ *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 @Immutable
@@ -46,7 +53,8 @@ public final class WebFilter implements Filter {
                 .initPipeline(servletContext, injector);
     }
 
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         //first setup the request context
         try {
             ContextManager.set((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
@@ -64,9 +72,9 @@ public final class WebFilter implements Filter {
     }
 
     public void destroy() {
-        //destroy all registered filters & servlets in that order
         final Injector injector = ContextManager.getInjector();
 
+        //destroy all registered filters & servlets in that order
         injector.getInstance(ManagedFilterPipeline.class)
                 .destroyPipeline(injector);
 

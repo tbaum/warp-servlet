@@ -1,7 +1,6 @@
 package com.wideplay.warp.servlet;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
 import javax.servlet.http.HttpServletRequest;

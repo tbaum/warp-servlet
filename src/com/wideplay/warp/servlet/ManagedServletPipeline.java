@@ -18,10 +18,12 @@ import java.util.List;
  * Date: Dec 19, 2007
  * Time: 8:22:32 PM
  *
+ * A wrapping dispatcher for servlets, in much the same way as ManagedFilterPipeline is for filters.
+ *
  * @author Dhanji R. Prasanna (dhanji gmail com)
+ * @see com.wideplay.warp.servlet.ManagedFilterPipeline
  */
-@Immutable
-@Singleton
+@Immutable @Singleton
 class ManagedServletPipeline {
     private final List<ServletDefinition> servletDefinitions;
 
@@ -37,7 +39,7 @@ class ManagedServletPipeline {
     }
 
     public boolean service(Injector injector, ServletRequest request, ServletResponse response) throws IOException, ServletException {
-
+        
         //stop at the first matching servlet and service
         for (ServletDefinition servletDefinition : servletDefinitions) {
             if (servletDefinition.service(injector, request, response))

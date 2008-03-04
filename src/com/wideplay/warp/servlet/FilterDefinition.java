@@ -7,11 +7,11 @@ import net.jcip.annotations.Immutable;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
-import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,13 +31,13 @@ class FilterDefinition {
     private final String pattern;
     private final Key<? extends Filter> filterKey;
     private final UriPatternMatcher patternMatcher;
-    private final Map<String, String> contextParams;
+    private final Map<String, String> initParams;
 
-    public FilterDefinition(String pattern, Key<? extends Filter> filterKey, UriPatternMatcher patternMatcher, Map<String, String> contextParams) {
+    public FilterDefinition(String pattern, Key<? extends Filter> filterKey, UriPatternMatcher patternMatcher, Map<String, String> initParams) {
         this.pattern = pattern;
         this.filterKey = filterKey;
         this.patternMatcher = patternMatcher;
-        this.contextParams = Collections.unmodifiableMap(contextParams);
+        this.initParams = Collections.unmodifiableMap(initParams);
     }
 
     private boolean shouldFilter(String uri) {
@@ -65,13 +65,13 @@ class FilterDefinition {
             }
 
             public String getInitParameter(String s) {
-                return contextParams.get(s);
+                return initParams.get(s);
             }
 
             public Enumeration getInitParameterNames() {
                 //noinspection InnerClassTooDeeplyNested,AnonymousInnerClassWithTooManyMethods
                 return new Enumeration() {
-                    private final Iterator<String> paramNames = contextParams.keySet().iterator();
+                    private final Iterator<String> paramNames = initParams.keySet().iterator();
 
                     public boolean hasMoreElements() {
                         return paramNames.hasNext();

@@ -22,6 +22,7 @@ package com.wideplay.warp.servlet;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
+import com.wideplay.warp.servlet.conversation.ConversationManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,6 +35,14 @@ import java.util.Map;
  * User: dhanji
  * Date: Dec 19, 2007
  * Time: 1:42:25 PM
+ *
+ * <p>
+ *
+ * Use this uninstantiable class to start configuring your warp-servlet Guice module. You may
+ * also directly use the scopes provided here or bind them to scope annotations (they are not
+ * bound by default).
+ *
+ * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
@@ -172,6 +181,32 @@ public final class Servlets {
         @Override
         public String toString() {
             return "Servlets.FLASH_SCOPE";
+        }
+    };
+
+
+    /**
+     * "Conversation" scope. Like Seam or Spring Webflow's. Better even =) See www.wideplay.com for details.
+     */
+    public static final Scope CONVERSATION_SCOPE = new Scope() {
+        @SuppressWarnings({"InnerClassTooDeeplyNested"})
+        public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
+            
+            //conversation scoping provider...
+            return new Provider<T>() {
+                public T get() {
+
+                    //locate the conv manager, and obtain a contextual instance, creating one if absent
+                    return ContextManager.getInjector()
+                            .getInstance(ConversationManager.class)
+                            .getAndPutIfAbsent(key, creator, ContextManager.getRequest());
+                }
+            };
+        }
+
+        @Override
+        public String toString() {
+            return "Servlets.CONVERSATION_SCOPE";
         }
     };
 

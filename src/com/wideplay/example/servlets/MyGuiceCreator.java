@@ -1,12 +1,14 @@
 package com.wideplay.example.servlets;
 
-import com.wideplay.warp.servlet.*;
-import static com.wideplay.example.servlets.ScopeDemoCountingServlet.*;
-import com.google.inject.Injector;
-import com.google.inject.Guice;
 import com.google.inject.AbstractModule;
-import com.google.inject.Provider;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import static com.google.inject.name.Names.named;
+import static com.wideplay.example.servlets.ScopeDemoCountingServlet.*;
+import com.wideplay.warp.servlet.FlashScoped;
+import com.wideplay.warp.servlet.Servlets;
+import com.wideplay.warp.servlet.SessionScoped;
+import com.wideplay.warp.servlet.WarpServletContextListener;
 
 /**
  * Created with IntelliJ IDEA.

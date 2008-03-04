@@ -2,7 +2,6 @@ package com.wideplay.warp.servlet;
 
 import com.google.inject.Key;
 
-import javax.servlet.Servlet;
 import javax.servlet.http.HttpServlet;
 import java.util.Map;
 

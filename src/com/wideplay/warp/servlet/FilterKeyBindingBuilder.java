@@ -4,8 +4,6 @@ import com.google.inject.Key;
 
 import javax.servlet.Filter;
 import java.util.Map;
-import java.util.HashMap;
-import java.awt.image.ColorConvertOp;
 
 /**
  * Created with IntelliJ IDEA.

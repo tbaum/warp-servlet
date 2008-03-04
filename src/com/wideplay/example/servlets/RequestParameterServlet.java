@@ -1,18 +1,18 @@
 package com.wideplay.example.servlets;
 
-import com.google.inject.Singleton;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.wideplay.warp.servlet.RequestParameters;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
