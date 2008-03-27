@@ -30,7 +30,7 @@ public class MyGuiceCreator extends WarpServletContextListener {
                     .filter("/*").through(RequestPrintingFilter.class)
 
                 .servlets()
-                    .serve("/index.html").with(Key.get(HttpServlet.class, named(HELLO_SERVLET)))
+                    .serve("/*").with(Key.get(HttpServlet.class, named(HELLO_SERVLET)))
                     .serve("/counter.html").with(ScopeDemoCountingServlet.class)
                     .serve("/scoped.html").with(ScopedServletWrappingServlet.class)
                     .serve("/params.html").with(RequestParameterServlet.class)
