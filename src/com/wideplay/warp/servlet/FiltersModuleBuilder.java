@@ -70,7 +70,7 @@ class FiltersModuleBuilder extends AbstractModule implements FilterBindingBuilde
 
         public FilterBindingBuilder through(Class<? extends Filter> filterKey, Map<String, String> contextParams) {
             //careful you don't accidentally make this method recursive!! thank you IntelliJ IDEA!
-            return through(Key.get(filterKey), new HashMap<String, String>());
+            return through(Key.get(filterKey), contextParams);
         }
 
         public FilterBindingBuilder through(Key<? extends Filter> filterKey, Map<String, String> contextParams) {

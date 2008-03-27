@@ -1,14 +1,16 @@
 package com.wideplay.example.servlets;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.*;
 import static com.google.inject.name.Names.named;
 import static com.wideplay.example.servlets.ScopeDemoCountingServlet.*;
 import com.wideplay.warp.servlet.FlashScoped;
 import com.wideplay.warp.servlet.Servlets;
 import com.wideplay.warp.servlet.SessionScoped;
 import com.wideplay.warp.servlet.WarpServletContextListener;
+
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServlet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +21,7 @@ import com.wideplay.warp.servlet.WarpServletContextListener;
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 public class MyGuiceCreator extends WarpServletContextListener {
+    private static final String HELLO_SERVLET = "hello";
 
     @Override
     protected Injector getInjector() {
@@ -27,7 +30,7 @@ public class MyGuiceCreator extends WarpServletContextListener {
                     .filter("/*").through(RequestPrintingFilter.class)
 
                 .servlets()
-                    .serve("/index.html").with(HelloWorldServlet.class)
+                    .serve("/index.html").with(Key.get(HttpServlet.class, named(HELLO_SERVLET)))
                     .serve("/counter.html").with(ScopeDemoCountingServlet.class)
                     .serve("/scoped.html").with(ScopedServletWrappingServlet.class)
                     .serve("/params.html").with(RequestParameterServlet.class)
@@ -43,8 +46,9 @@ public class MyGuiceCreator extends WarpServletContextListener {
                         bindScope(FlashScoped.class, Servlets.FLASH_SCOPE);
                         //etc...
 
+                        bind(HttpServlet.class).annotatedWith(named(HELLO_SERVLET)).to(HelloWorldServlet.class).in(Singleton.class);
 
-                        //Bug in guice forces me to explicitly bind Counter to itself if I want to use annotatedWith + custom scopes =(
+                        //Bug (?) in guice forces me to explicitly bind Counter to itself if I want to use annotatedWith + custom scopes =(
                         bind(Counter.class).annotatedWith(named(REQUEST)).to(Counter.class).in(Servlets.REQUEST_SCOPE);
                         bind(Counter.class).annotatedWith(named(SESSION)).to(Counter.class).in(SessionScoped.class);
                         bind(Counter.class).annotatedWith(named(FLASH)).to(Counter.class).in(FlashScoped.class);
