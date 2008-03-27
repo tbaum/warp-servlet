@@ -21,13 +21,15 @@ import java.io.PrintWriter;
 public class HelloWorldServlet extends HttpServlet {
     //this servlet is also managed by guice, so you can inject, scope or intercept it as you please.
 
+
+
     protected void doGet(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
         //lets say hi!
         final PrintWriter out = httpServletResponse.getWriter();
 
         out.println("<html><head><title>Warp::Servlet powered servlet</title></head>");
         out.println("<body>");
-        out.println("Hello from Managed servlet powered by Warp::Servlet and Google Guice!");
+        out.println("Hello from Managed servlet: " + getServletName() +" powered by Warp::Servlet and Google Guice!");
         out.println("</body></html>");
 
         //write!
