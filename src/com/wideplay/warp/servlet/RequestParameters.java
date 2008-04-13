@@ -8,8 +8,20 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created with IntelliJ IDEA.
  * User: dhanji
- * Date: Dec 21, 2007
- * Time: 2:13:22 PM
+ *
+ * <p>
+ * Use this to inject a map of request parameters. This works exactly
+ * like guice-servlet's request parameter support. For example:
+ * </p>
+ *
+ * <code>
+ * @Inject @RequestParameters Map<String, String[]> params;
+ * </code>
+ *
+ * <p>
+ * Note that bound parameters *must* be an array of Strings (even though they
+ * will typically only contain one element).
+ * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
