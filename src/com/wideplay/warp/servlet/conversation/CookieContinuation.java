@@ -2,12 +2,11 @@ package com.wideplay.warp.servlet.conversation;
 
 import com.google.inject.Singleton;
 import net.jcip.annotations.Immutable;
+import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA.

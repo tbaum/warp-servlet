@@ -1,9 +1,9 @@
 package com.wideplay.warp.servlet;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Created with IntelliJ IDEA.

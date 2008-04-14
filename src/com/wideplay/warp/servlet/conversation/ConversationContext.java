@@ -1,7 +1,7 @@
 package com.wideplay.warp.servlet.conversation;
 
-import com.google.inject.Key;
 import com.google.inject.ImplementedBy;
+import com.google.inject.Key;
 
 import java.io.Serializable;
 

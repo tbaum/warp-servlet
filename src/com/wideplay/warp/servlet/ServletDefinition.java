@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.wideplay.warp.servlet.uri.UriPatternMatcher;
 import net.jcip.annotations.Immutable;
+import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +15,6 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,25 +1,23 @@
 package com.wideplay.warp.servlet.conversation;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.*;
-
-import static org.easymock.EasyMock.*;
-import org.jetbrains.annotations.NotNull;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.AbstractModule;
+import com.wideplay.warp.servlet.ContextManagerTestDelegator;
 import com.wideplay.warp.servlet.Servlets;
 import com.wideplay.warp.servlet.WebFilter;
-import com.wideplay.warp.servlet.ContextManagerTestDelegator;
+import static org.easymock.EasyMock.*;
+import org.jetbrains.annotations.NotNull;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import javax.servlet.*;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.Enumeration;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.

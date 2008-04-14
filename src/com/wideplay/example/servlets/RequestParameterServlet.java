@@ -35,7 +35,7 @@ public class RequestParameterServlet extends HttpServlet {
 
         out.println("<html><head><title>Warp::Servlet powered servlet</title></head>");
         out.println("<body>");
-        out.println("Here are the request parameters (add ?name=value to url to see more appear): " + print(params.get()));
+        out.println("Here are the request parameters (add &name=value to url to see more appear): " + print(params.get()));
         out.println("</body></html>");
 
         //write!

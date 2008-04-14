@@ -1,8 +1,8 @@
 package com.wideplay.warp.servlet.conversation;
 
+import static com.wideplay.warp.servlet.conversation.ContinuationStrategy.COOKIES;
+import static com.wideplay.warp.servlet.conversation.StoreKind.MEMORY;
 import org.testng.annotations.Test;
-import static com.wideplay.warp.servlet.conversation.ContinuationStrategy.*;
-import static com.wideplay.warp.servlet.conversation.StoreKind.*;
 
 /**
  * Created with IntelliJ IDEA.

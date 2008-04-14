@@ -1,20 +1,19 @@
 package com.wideplay.warp.servlet.conversation;
 
+import com.google.inject.*;
+import com.wideplay.warp.servlet.ContextManagerTestDelegator;
+import com.wideplay.warp.servlet.Servlets;
+import org.easymock.EasyMock;
+import static org.easymock.EasyMock.*;
 import org.testng.annotations.Test;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-
-import static org.easymock.EasyMock.*;
-import org.easymock.EasyMock;
-import com.google.inject.*;
-import com.wideplay.warp.servlet.*;
-
-import java.util.UUID;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.

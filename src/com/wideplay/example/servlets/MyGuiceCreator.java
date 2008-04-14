@@ -8,8 +8,6 @@ import com.wideplay.warp.servlet.Servlets;
 import com.wideplay.warp.servlet.SessionScoped;
 import com.wideplay.warp.servlet.WarpServletContextListener;
 
-import javax.servlet.Filter;
-import javax.servlet.Servlet;
 import javax.servlet.http.HttpServlet;
 
 /**
@@ -30,10 +28,11 @@ public class MyGuiceCreator extends WarpServletContextListener {
                     .filter("/*").through(RequestPrintingFilter.class)
 
                 .servlets()
-                    .serve("/*").with(Key.get(HttpServlet.class, named(HELLO_SERVLET)))
+                    .serve("/hello/*").with(Key.get(HttpServlet.class, named(HELLO_SERVLET)))
                     .serve("/counter.html").with(ScopeDemoCountingServlet.class)
                     .serve("/scoped.html").with(ScopedServletWrappingServlet.class)
                     .serve("/params.html").with(RequestParameterServlet.class)
+                    .serve("/info/*").with(RequestInfoServlet.class)
 
                 .buildModule(),
 

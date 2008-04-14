@@ -1,15 +1,13 @@
 package com.wideplay.warp.servlet;
 
+import com.google.inject.*;
+import static org.easymock.EasyMock.*;
 import org.testng.annotations.Test;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import static org.easymock.EasyMock.*;
-import com.google.inject.*;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.

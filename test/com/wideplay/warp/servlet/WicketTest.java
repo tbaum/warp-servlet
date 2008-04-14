@@ -1,11 +1,10 @@
 package com.wideplay.warp.servlet;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.AfterClass;
-import org.apache.wicket.protocol.http.WebApplication;
 import com.google.inject.Guice;
+import org.apache.wicket.protocol.http.WebApplication;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Created with IntelliJ IDEA.

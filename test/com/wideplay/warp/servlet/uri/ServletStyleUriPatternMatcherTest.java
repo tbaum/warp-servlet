@@ -2,7 +2,6 @@ package com.wideplay.warp.servlet.uri;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import com.wideplay.warp.servlet.uri.ServletStyleUriPatternMatcher;
 
 /**
  * Created with IntelliJ IDEA.

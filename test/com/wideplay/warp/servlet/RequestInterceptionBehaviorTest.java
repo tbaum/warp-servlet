@@ -1,8 +1,9 @@
 package com.wideplay.warp.servlet;
 
 import com.google.inject.Guice;
-import com.google.inject.Singleton;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
+import static org.easymock.EasyMock.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
-import static org.easymock.EasyMock.*;
 
 /**
  * Created with IntelliJ IDEA.
