@@ -56,7 +56,7 @@ public class FilterDispatchIntegrationTest {
         //create ourselves a mock request with test URI
         HttpServletRequest requestMock = createMock(HttpServletRequest.class);
 
-        expect(requestMock.getRequestURI())
+        expect(requestMock.getServletPath())
                 .andReturn("/index.html")
                 .times(5);
 
@@ -98,7 +98,7 @@ public class FilterDispatchIntegrationTest {
         //create ourselves a mock request with test URI
         HttpServletRequest requestMock = createMock(HttpServletRequest.class);
 
-        expect(requestMock.getRequestURI())
+        expect(requestMock.getServletPath())
                 .andReturn("/index.xhtml")
                 .times(5);
 
@@ -138,7 +138,7 @@ public class FilterDispatchIntegrationTest {
         //create ourselves a mock request with test URI
         HttpServletRequest requestMock = createMock(HttpServletRequest.class);
 
-        expect(requestMock.getRequestURI())
+        expect(requestMock.getServletPath())
                 .andReturn("/index")
                 .times(3);
 

@@ -1,0 +1,22 @@
+<configuration>
+
+	<appender class="ch.qos.logback.core.ConsoleAppender" name="ConsoleAppender">
+
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%p [%c{1}] - %m%n</pattern>
+        </layout>
+    </appender>
+    <!-- our app logger -->
+
+    <logger additivity="false" name="com.wideplay.warp">
+        <level value="debug"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </logger>
+
+
+    <!-- global logger -->
+    <root>
+        <level value="info"/>
+        <appender-ref ref="ConsoleAppender"/>
+    </root>
+</configuration>

@@ -13,6 +13,9 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created with IntelliJ IDEA.
  * User: dhanji
@@ -95,9 +98,15 @@ class FilterDefinition {
     public void doFilter(Injector injector, ServletRequest servletRequest, ServletResponse servletResponse, FilterChainInvocation filterChainInvocation)
             throws IOException, ServletException {
 
-        if (shouldFilter(((HttpServletRequest)servletRequest).getRequestURI()))
+        final String path = ((HttpServletRequest) servletRequest).getServletPath();
+
+        if (shouldFilter(path)) {
+            Logger log = LoggerFactory.getLogger(FilterDefinition.class);
+
+            log.debug("Dispatching filter: " + filterKey + " for " + path);
             injector.getInstance(filterKey)
                 .doFilter(servletRequest, servletResponse, filterChainInvocation);
+        }
         else
             //otherwise proceed down chain anyway
             filterChainInvocation.doFilter(servletRequest, servletResponse);

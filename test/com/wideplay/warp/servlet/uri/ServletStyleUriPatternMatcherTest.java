@@ -14,6 +14,7 @@ import com.wideplay.warp.servlet.uri.ServletStyleUriPatternMatcher;
  */
 public class ServletStyleUriPatternMatcherTest {
     private static final String URIS_AND_PATTERNS = "urisAndPatterns";
+    private static final String PATTERNS_AND_PATHS= "patternsANDPaths";
 
     @DataProvider(name = URIS_AND_PATTERNS)
     Object[][] getUrisAndPatterns() {
@@ -27,11 +28,38 @@ public class ServletStyleUriPatternMatcherTest {
         };
     }
 
+    @DataProvider(name = PATTERNS_AND_PATHS)
+    Object[][] getPatterns() {
+        return new Object[][] {
+                { "/*", null},
+                { "/public/*", "/public" },
+                { "*.html", null },
+                { "/public/space/*", "/public/space" },
+                { "*.xhtml", null },
+                { "/public/login.html", "/public/login.html" },
+                { "/index.html", "/index.html" },
+//                { "////", null },     // TODO: check servlet spec on this one
+                { "/html/win/*", "/html/win" },
+        };
+    }
+
     @Test(dataProvider = URIS_AND_PATTERNS)
-    public final void regexPatternMatching(final String uri, final String pattern, boolean pass) {
+    public final void servletStyleMatches(final String uri, final String pattern, boolean pass) {
 
         assert pass == new ServletStyleUriPatternMatcher()
                 .matches(uri, pattern) : "Expression failed to pass URI matching expectation";
+
+    }
+
+    @Test(dataProvider = PATTERNS_AND_PATHS)
+    public final void servletStyleExtractPath(final String pattern, final String path) {
+        final String extracted = new ServletStyleUriPatternMatcher()
+                         .extractPath(pattern);
+
+        if (null == path)
+            assert null == extracted : "Extracted path was not as expected: " + extracted;
+        else
+            assert path.equals(extracted) : "Extracted path was not as expected:" + extracted;
 
     }
 }

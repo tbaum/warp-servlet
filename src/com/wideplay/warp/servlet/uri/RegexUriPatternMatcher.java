@@ -15,4 +15,8 @@ class RegexUriPatternMatcher implements UriPatternMatcher {
     public boolean matches(String uri, String pattern) {
         return null != uri && uri.matches(pattern);
     }
+
+    public String extractPath(String pattern) {
+        return null;
+    }
 }

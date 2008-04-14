@@ -62,7 +62,7 @@ public class RequestInterceptionBehaviorTest {
                 .andReturn(injector)
                 .once();
 
-        expect(request.getRequestURI())
+        expect(request.getServletPath())
                 .andReturn("/thing/index.html")
                 .times(2);
 
@@ -101,6 +101,7 @@ public class RequestInterceptionBehaviorTest {
             remoteUser = interceptedRemoteUser;
         }
 
+        @SuppressWarnings({"InnerClassTooDeeplyNested"})
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
             final HttpServletRequestWrapper httpServletRequestWrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest) {
                 public String getRemoteUser() {

@@ -14,5 +14,21 @@ package com.wideplay.warp.servlet.uri;
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 public interface UriPatternMatcher {
+    /**
+     *
+     * @param uri A contextual Request URI (not complete)
+     * @param pattern A String containing some pattern that this service can match for
+     * @return Returns true if the uri matches the pattern.
+     */
     boolean matches(String uri, String pattern);
+
+    /**
+     *
+     * @param pattern A String containing some pattern that this service can match for
+     * @return Returns a canonical servlet path from this pattern. For instance, if the pattern is
+     *  {@code /home/*} then the path extracted will be {@code /home}.
+     *  Each pattern matcher implementation must decide and publish what a canonical path represents.
+     *
+     */
+    String extractPath(String pattern);
 }

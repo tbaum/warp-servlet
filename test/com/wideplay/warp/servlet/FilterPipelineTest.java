@@ -32,10 +32,11 @@ public class FilterPipelineTest {
                 .filter("/*").through(TestFilter.class)
                 .filter("*.html").through(TestFilter.class)
                 .filter("/*").through(Key.get(TestFilter.class))
+                .filter("*.jsp").through(Key.get(TestFilter.class))
 
                 //these filters should never fire
-                .filter("/index/*").through(Key.get(TestFilter.class))
-                .filter("*.jsp").through(Key.get(TestFilter.class))
+                .filter("/index/*").through(Key.get(NeverFilter.class))
+                .filter("/public/login/*").through(Key.get(NeverFilter.class))
 
                 .servlets()
                 
@@ -62,9 +63,9 @@ public class FilterPipelineTest {
         expect(servletContext.getAttribute(WarpServletContextListener.INJECTOR_NAME))
                 .andReturn(injector);
 
-        expect(request.getRequestURI())
+        expect(request.getServletPath())
                 .andReturn("/public/login.jsp")
-                .times(5);
+                .anyTimes();
 
         //at the end, proceed down webapp's normal filter chain
         proceedingFilterChain.doFilter(request, null);
@@ -99,6 +100,19 @@ public class FilterPipelineTest {
 
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
             filterChain.doFilter(servletRequest, servletResponse);
+        }
+
+        public void destroy() {
+        }
+    }
+
+    @Singleton
+    public static class NeverFilter implements Filter {
+        public void init(FilterConfig filterConfig) throws ServletException {
+        }
+
+        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+            assert false : "This filter should never have fired";
         }
 
         public void destroy() {

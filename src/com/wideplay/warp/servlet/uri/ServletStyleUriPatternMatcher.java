@@ -1,6 +1,7 @@
 package com.wideplay.warp.servlet.uri;
 
 import net.jcip.annotations.Immutable;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,5 +25,23 @@ class ServletStyleUriPatternMatcher implements UriPatternMatcher {
 
         //else treat as a literal
         return pattern.equals(uri);
+    }
+
+    public String extractPath(@NotNull String pattern) {
+        if (pattern.startsWith("*"))
+            return null;
+
+        else if (pattern.endsWith("*")) {
+            String extract = pattern.substring(0, pattern.length() - 1);
+
+            //trim the trailing '/'
+            if (extract.endsWith("/"))
+                extract = extract.substring(0, extract.length() - 1);
+
+            return ("".equals(extract)) ? null : extract;
+        }
+
+        //else treat as literal
+        return pattern;
     }
 }

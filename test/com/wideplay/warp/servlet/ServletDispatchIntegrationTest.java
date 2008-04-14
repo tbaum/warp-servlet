@@ -44,10 +44,10 @@ public class ServletDispatchIntegrationTest {
                     .serve("/*").with(TestServlet.class)
 
                     //these servets should never fire
-                    .serve("*.html").with(TestServlet.class)
-                    .serve("/*").with(Key.get(TestServlet.class))
-                    .serve("/index/*").with(Key.get(TestServlet.class))
-                    .serve("*.jsp").with(Key.get(TestServlet.class))
+                    .serve("*.html").with(NeverServlet.class)
+                    .serve("/*").with(Key.get(NeverServlet.class))
+                    .serve("/index/*").with(Key.get(NeverServlet.class))
+                    .serve("*.jsp").with(Key.get(NeverServlet.class))
 
                     .buildModule()
         );
@@ -59,7 +59,7 @@ public class ServletDispatchIntegrationTest {
         //create ourselves a mock request with test URI
         HttpServletRequest requestMock = createMock(HttpServletRequest.class);
 
-        expect(requestMock.getRequestURI())
+        expect(requestMock.getServletPath())
                 .andReturn("/index.html")
                 .times(1);
 
@@ -88,10 +88,10 @@ public class ServletDispatchIntegrationTest {
                     .serve("/*").with(TestServlet.class)
 
                     //these servets should never fire
-                    .serve("*.html").with(TestServlet.class)
-                    .serve("/*").with(Key.get(TestServlet.class))
-                    .serve("/index/*").with(Key.get(TestServlet.class))
-                    .serve("*.jsp").with(Key.get(TestServlet.class))
+                    .serve("*.html").with(NeverServlet.class)
+                    .serve("/*").with(Key.get(NeverServlet.class))
+                    .serve("/index/*").with(Key.get(NeverServlet.class))
+                    .serve("*.jsp").with(Key.get(NeverServlet.class))
 
                     .buildModule()
         );
@@ -103,7 +103,7 @@ public class ServletDispatchIntegrationTest {
         //create ourselves a mock request with test URI
         HttpServletRequest requestMock = createMock(HttpServletRequest.class);
 
-        expect(requestMock.getRequestURI())
+        expect(requestMock.getServletPath())
                 .andReturn("/index.html")
                 .times(2);
 
@@ -130,6 +130,21 @@ public class ServletDispatchIntegrationTest {
 
         public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
             services++;
+        }
+
+        public void destroy() {
+            destroys++;
+        }
+    }
+
+    @Singleton
+    public static class NeverServlet extends HttpServlet {
+        public void init(ServletConfig filterConfig) throws ServletException {
+            inits++;
+        }
+
+        public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
+            assert false : "NeverServlet was fired, when it should not have been: ";
         }
 
         public void destroy() {

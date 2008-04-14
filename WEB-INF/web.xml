@@ -24,6 +24,19 @@
     </filter-mapping>
 
 
+
+
+    <!-- IGNORE THIS SERVLET IT IS ONLY HERE FOR SANITY CHECK PURPOSE -->
+    <servlet>
+        <servlet-name>unmanagedServlet</servlet-name>
+        <servlet-class>com.wideplay.example.servlets.UnmanagedInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>unmanagedServlet</servlet-name>
+        <url-pattern>/uninfo/*</url-pattern>
+    </servlet-mapping>
+
+
     <!-- send users to index.html which is served by a warp-managed servlet -->
     <welcome-file-list>
         <welcome-file>/index.html</welcome-file>
