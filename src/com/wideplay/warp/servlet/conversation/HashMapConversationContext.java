@@ -12,6 +12,8 @@ import java.util.Map;
  * Date: Dec 23, 2007
  * Time: 4:47:49 PM
  *
+ * A single-thread hashmap impl of a SINGLE conversation (and its set of objects).
+ *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 @NotThreadSafe

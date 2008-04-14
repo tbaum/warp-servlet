@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.*;
 
 import static org.easymock.EasyMock.*;
+import org.jetbrains.annotations.NotNull;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.AbstractModule;
@@ -28,7 +29,7 @@ import java.util.Enumeration;
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
-public class InjectorContinuationsTest {
+public class CookieContinuationsTest {
     private TestConvObject testConvObject;
     private static final String TESTCONV_ID = "oohahh";
 
@@ -46,6 +47,10 @@ public class InjectorContinuationsTest {
         private final String value = UUID.randomUUID().toString(); 
     }
 
+
+
+    //this is a convoluted test that asserts the same conv and the same instance are preserved across requests using easymock
+    //TODO I need to triangulate this using a manual mocking system
     @Test
     public final void continueConvAcrossRequests() throws ServletException, IOException {
         ConversationContext conversationContext = new HashMapConversationContext();
@@ -68,11 +73,15 @@ public class InjectorContinuationsTest {
 
         //start new conv
         expect(store.newConversation(isA(String.class)))
-                .andReturn(conversationContext);
+                .andReturn(conversationContext)
+                .anyTimes();
 
         //get the conv id (ignore the autocreated one and pretend this is it)
         expect(store.get(TESTCONV_ID))
-                .andReturn(conversationContext);
+                .andReturn(conversationContext)
+                .anyTimes();
+
+
 
 
         final Injector injector = Guice.createInjector(Servlets.configure()
@@ -100,16 +109,58 @@ public class InjectorContinuationsTest {
 
         testConvObject = null;
 
-        reset(request, response);
+//        verify(request, response, store);
 
-        //simulate request2
+
+
+        // ***** SECOND REQUEST  ******
+
+
+        //teach continuation
+        request = createNiceMock(HttpServletRequest.class);
+        response = createNiceMock(HttpServletResponse.class);
+
+        
+
+        //look for continuation from request (not available yet, so return null)
+        expect(request.getAttribute(CookieContinuation.WARPCONVID))
+                .andReturn(null);
+
+
+        //now look for it from the cookie set
+        expect(request.getCookies())
+                .andReturn(cookies());
+
+
+        //now that it has been found, it will be set on the request for easy retrieval
+        request.setAttribute(CookieContinuation.WARPCONVID, TESTCONV_ID);
+        expectLastCall().once();
+
+        
+
+        replay(request, response);
+
+        //simulate request2 (in this request we continue the conv with a set cookie)
         filter.doFilter(request, response, filterChain);
 
         assert null != testConvObject;
         assert temp == testConvObject;
+        //noinspection StringEquality
+        assert temp.value == testConvObject.value;
 
 
         filter.destroy();
+    }
+
+
+    //returns a simulated cookie (from a prev conv)
+    @NotNull
+    private Cookie[] cookies() {
+        final Cookie[] cookies = new Cookie[1];
+
+        cookies[0] = new Cookie(CookieContinuation.WARPCONVID, TESTCONV_ID);
+
+        return cookies;
     }
 
     @SuppressWarnings({"OverlyComplexAnonymousInnerClass"})

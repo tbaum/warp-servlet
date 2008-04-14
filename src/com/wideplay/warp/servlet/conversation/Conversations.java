@@ -28,6 +28,6 @@ public final class Conversations {
     }
 
     public static ConversationBindingBuilder configure() {
-        return null;
+        return new ConversationModule();
     }
 }

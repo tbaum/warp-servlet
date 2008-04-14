@@ -9,5 +9,5 @@ package com.wideplay.warp.servlet.conversation;
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 public enum ContinuationStrategy {
-    COOKIES, URL_REWRITING, SESSION,;
+    COOKIES, URL_REWRITING,;
 }

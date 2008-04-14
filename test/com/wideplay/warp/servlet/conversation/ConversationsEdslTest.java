@@ -1,6 +1,8 @@
 package com.wideplay.warp.servlet.conversation;
 
 import org.testng.annotations.Test;
+import static com.wideplay.warp.servlet.conversation.ContinuationStrategy.*;
+import static com.wideplay.warp.servlet.conversation.StoreKind.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,10 +15,10 @@ import org.testng.annotations.Test;
 public class ConversationsEdslTest {
     @Test
     public final void edslTest() {
-//        Conversations.configure()
-//                .using(COOKIES)
-//                .in(MEMORY)
-
-//                .buildModule();
+        Conversations.configure()
+                .using(COOKIES)
+                .in(MEMORY)
+//
+                .buildModule();
     }
 }

@@ -7,6 +7,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: dhanji
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 class CookieContinuation implements Continuation {
     static final String WARPCONVID = "WARPCONVID";
 
-
+    @Nullable
     public String findKey(HttpServletRequest request) {
         //check if this is the first request in the conversation (then there won't be any cookie set)
         String key = (String) request.getAttribute(WARPCONVID);

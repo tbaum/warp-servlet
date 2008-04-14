@@ -2,6 +2,8 @@ package com.wideplay.warp.servlet;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterClass;
 import org.apache.wicket.protocol.http.WebApplication;
 import com.google.inject.Guice;
 
@@ -18,6 +20,11 @@ public class WicketTest {
     @BeforeMethod
     void reset() {
         ContextManager.setInjector(null);
+    }
+
+    @AfterClass
+    void clean() {
+        ContextManager.unset();
     }
 
     @Test(expectedExceptions = NullPointerException.class)
