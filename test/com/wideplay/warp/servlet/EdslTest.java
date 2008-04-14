@@ -3,6 +3,7 @@ package com.wideplay.warp.servlet;
 import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.AbstractModule;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -53,6 +54,10 @@ public class EdslTest {
 
                 .buildModule();
 
-        Guice.createInjector(webModule);
+        Guice.createInjector(webModule, new AbstractModule() {
+            protected void configure() {
+                Servlets.bindScopes(binder());
+            }
+        });
     }
 }

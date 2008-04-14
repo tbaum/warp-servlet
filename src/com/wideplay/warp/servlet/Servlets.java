@@ -22,7 +22,9 @@ package com.wideplay.warp.servlet;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
+import com.google.inject.Binder;
 import com.wideplay.warp.servlet.conversation.ConversationManager;
+import com.wideplay.warp.servlet.conversation.ConversationScoped;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -64,6 +66,7 @@ public final class Servlets {
     public static final Scope REQUEST_SCOPE = new Scope() {
         public <T> Provider<T> scope(Key<T> key, final Provider<T> creator) {
             final String name = key.toString();
+            //noinspection InnerClassTooDeeplyNested
             return new Provider<T>() {
                 public T get() {
                     HttpServletRequest request = ContextManager.getRequest();
@@ -92,6 +95,7 @@ public final class Servlets {
     public static final Scope SESSION_SCOPE = new Scope() {
         public <T> Provider<T> scope(Key<T> key, final Provider<T> creator) {
             final String name = key.toString();
+            //noinspection InnerClassTooDeeplyNested
             return new Provider<T>() {
                 public T get() {
                     HttpSession session = ContextManager.getRequest().getSession();
@@ -121,6 +125,7 @@ public final class Servlets {
         public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
             final String flashMapKey = this.toString();
 
+            //noinspection OverlyComplexAnonymousInnerClass,InnerClassTooDeeplyNested
             return new Provider<T>() {
 
                 @SuppressWarnings("unchecked")
@@ -210,4 +215,10 @@ public final class Servlets {
         }
     };
 
+    public static void bindScopes(Binder binder) {
+        binder.bindScope(RequestScoped.class, REQUEST_SCOPE);
+        binder.bindScope(SessionScoped.class, SESSION_SCOPE);
+        binder.bindScope(FlashScoped.class, FLASH_SCOPE);
+        binder.bindScope(ConversationScoped.class, CONVERSATION_SCOPE);
+    }
 }
