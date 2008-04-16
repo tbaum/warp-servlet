@@ -44,7 +44,7 @@
     </target>
 
     <target name="assemble.jar" depends="build" description="packages warp-servlet into a library jar">
-        <jar basedir="${build}" destfile="${dist}/warp-servlet.jar">
+        <jar basedir="${build}" destfile="${dist}/warp-servlet-${version}.jar">
             <exclude name="com/wideplay/example/**"/>
         </jar>
 
@@ -58,7 +58,7 @@
             <classpath>
                 <path refid="warp-servlet.classpath"/>
 
-                <pathelement location="${dist}/warp-servlet.jar"/>
+                <pathelement location="${dist}/warp-servlet-${version}.jar"/>
             </classpath>
 
             <classfileset dir="${build}" includes="**/*Test.class"/>
