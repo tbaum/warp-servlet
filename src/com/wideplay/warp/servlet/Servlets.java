@@ -19,10 +19,10 @@
 
 package com.wideplay.warp.servlet;
 
+import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import com.google.inject.Binder;
 import com.wideplay.warp.servlet.conversation.ConversationManager;
 import com.wideplay.warp.servlet.conversation.ConversationScoped;
 

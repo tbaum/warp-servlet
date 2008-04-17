@@ -5,6 +5,8 @@ import com.google.inject.Singleton;
 import net.jcip.annotations.Immutable;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -48,8 +50,28 @@ class ManagedFilterPipeline {
         //invoke over the filter/servlet pipeline with the given request/response
         final ManagedServletPipeline servletPipeline = injector.getInstance(ManagedServletPipeline.class);
         new FilterChainInvocation(filterDefinitions, servletPipeline, proceedingFilterChain, injector)
-                .doFilter(request, response);
+                .doFilter(withDispatcher(request, servletPipeline, injector), response);
 
+    }
+
+    /**
+     * Used to create an proxy that dispatches either to the warp-servlet pipeline or the regular pipeline based on
+     * uri-path match. 
+     */
+    @SuppressWarnings("JavaDoc")
+    private ServletRequest withDispatcher(ServletRequest request, final ManagedServletPipeline servletPipeline,
+                                          final Injector injector) {
+        return new HttpServletRequestWrapper((HttpServletRequest) request) {
+
+            @Override
+            public RequestDispatcher getRequestDispatcher(String path) {
+                final RequestDispatcher dispatcher = servletPipeline.getRequestDispatcher(path, injector);
+
+                return (null != dispatcher) ? dispatcher : super.getRequestDispatcher(path);
+            }
+
+            
+        };
     }
 
     public void destroyPipeline(Injector injector) {

@@ -4,13 +4,12 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import net.jcip.annotations.Immutable;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,5 +53,31 @@ class ManagedServletPipeline {
         for (ServletDefinition servletDefinition : servletDefinitions) {
             servletDefinition.destroy(injector);
         }
+    }
+
+    @Nullable
+    public RequestDispatcher getRequestDispatcher(String path, final Injector injector) {
+        for (final ServletDefinition servletDefinition : servletDefinitions) {
+            if (servletDefinition.shouldServe(path))
+                return new RequestDispatcher() {
+
+                    public void forward(ServletRequest servletRequest, ServletResponse servletResponse)
+                            throws ServletException, IOException {
+
+                        //TODO what does forward really do?
+                        servletDefinition.doService(injector, servletRequest, servletResponse);
+                    }
+
+                    public void include(ServletRequest servletRequest, ServletResponse servletResponse)
+                            throws ServletException, IOException {
+
+                        //route to the target servlet
+                        servletDefinition.doService(injector, servletRequest, servletResponse);
+                    }
+                };
+        }
+
+        //otherwise, can't process
+        return null;
     }
 }

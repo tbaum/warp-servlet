@@ -1,16 +1,63 @@
 <html>
+<!--
+
+Modified by Wideplay Interactive.
+
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+-->
+<head>
+
+    <link href="default.css" rel="stylesheet" type="text/css" />
+</head>
 
 <body>
-    <h1>Warp::Servlet examples</h1>
+    <!-- start header -->
+    <div id="header">
+        <div id="logo">
+            <h1>warp::servlet<sup></sup></h1>
+            <h2>servlet support for guice</h2>
+        </div>
+        <div id="menu">
+            <ul>
+                <li class="active"><a href="http://www.wideplay.com">wideplay</a></li>
+                <li><a href="http://groups.google.com/group/warp-core">problems?</a></li>
+                <li><a href="http://warp-datagrid.googlecode.com/svn/trunk/warp-servlet">source</a></li>
+                <li><a href="http://www.wideplay.com/warp::servlet">doc</a></li>
+                <li><a href="http://code.google.com/p/google-guice">guice</a></li>
+            </ul>
+        </div>
+    </div>
 
-    <p>
-        <a href="hello/hi">Hello World</a> <br/>
-        <a href="counter.html">Counting Servlet</a> (demonstrates REQUEST, SESSION & FLASH scopes) <br/>
-        <a href="scoped.html">Scoped Wrapper</a> (demonstrates scoping Servlets as REQUEST or SESSION, using an @Singleton Wrapper) <br/>
-        <a href="params.html?hi=dude">Request Parameters</a> (injection of request params)                                                <br/>
-        <a href="info/givemeInfo.html">Info Servlet</a> (demonstrates compliance of servlets managed by warp-servlet)                                 <br/>
-        <a href="uninfo/givemeInfo.html">Unmanaged Servlet</a> (a "normal" servlet not managed by warp-servlet, to compare with above) <br/>
-    </p>
+    <div id="page">
+        <!-- start content -->
+        <div id="content">
+            <div class="post">
+                <h1 class="title">examples</h1>
+                <div class="entry">
+
+                    <ul>
+                        <li><a class="comments" href="hello/hi">Hello World</a> </li>
+                        <li><a class="comments" href="counter.html">Counting Servlet</a> (demonstrates REQUEST, SESSION & FLASH scopes) </li>
+                        <li><a class="comments" href="scoped.html">Scoped Wrapper</a> (demonstrates scoping Servlets as REQUEST or SESSION, using an @Singleton Wrapper) </li>
+                        <li><a class="comments" href="params.html?hi=dude">Request Parameters</a> (injection of request params)                                                </li>
+                        <li><a class="comments" href="info/givemeInfo.html">Info Servlet</a> (demonstrates compliance of servlets managed by warp-servlet)                                 </li>
+                        <li><a class="comments" href="uninfo/givemeInfo.html">Unmanaged Servlet</a> (a "normal" servlet NOT managed by warp-servlet, to compare with above) </li>
+                        <li><a class="comments" href="includer">Request Dispatching Servlet</a> (a managed servlet that includes a JSP) </li>
+                        <li><a class="comments" href="sampleIncluder.jsp">Request Dispatching in reverse</a> (a JSP that includes a managed servlet) </li>
+                        <li><a class="comments" href="sampleForwarder.jsp">Request Forwarding</a> (a JSP that forwards to a managed servlet) </li>
+                    </ul>
+                </div>
+
+
+                <div class="meta">
+                    <p class="byline">warp-servlet version 0.9_02. Wideplay Interactive Group.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

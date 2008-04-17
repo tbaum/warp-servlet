@@ -44,7 +44,7 @@ class ServletDefinition {
         this.initParams = Collections.unmodifiableMap(initParams);
     }
 
-    private boolean shouldServe(String uri) {
+    boolean shouldServe(String uri) {
         return patternMatcher.matches(uri, pattern);
     }
 
@@ -93,6 +93,9 @@ class ServletDefinition {
 
     /**
      *
+     * Wrapper around the service chain to ensure a servlet is servicing what it must and provides it with
+     * a wrapped request.
+     *
      * @param injector The Guice Injector
      * @param servletRequest Current HTTP request
      * @param servletResponse Current HTTP response
@@ -109,62 +112,71 @@ class ServletDefinition {
 
         //invocations of the chain end at the first matched servlet
         if (serve) {
-            //wrap request & compute correct request paths for this servlet:
-            //noinspection OverlyComplexAnonymousInnerClass
-            HttpServletRequest request = new HttpServletRequestWrapper((HttpServletRequest)servletRequest) {
-                private String path;
-                private boolean pathComputed = false;   //must use a boolean on the memo field, because null is a legal value
-
-                @Override
-                public String getPathInfo() {
-                    //filter-path - computed servlet path = warp-servlet's request path info
-                    final String superPath = super.getServletPath();
-                    
-                    if (null == superPath || null == computePath())
-                        return null;
-
-                    //corner case: if the path is a literal
-                    if (superPath.equals(path))
-                        return null;
-
-                    return superPath.substring(path.length());  //use path directly since computePath() was run above
-
-                }
-
-                @Override
-                public String getServletPath() {
-                    //warp-servlet path = registered path in uri-mapping 
-                    return computePath();
-                }
-
-                @Override
-                public String getPathTranslated() {
-                    final String info = getPathInfo();
-
-                    return (null == info) ? null : getRealPath(info);
-                }
-
-                //lazy calc
-                @Nullable
-                private String computePath() {
-                    if (!pathComputed) {
-                        path = patternMatcher.extractPath(pattern);
-                        pathComputed = true;
-                    }
-
-                    return path;
-                }
-            };
-
-
-
-            injector.getInstance(servletKey)
-                .service(request, servletResponse);
+            doService(injector, servletRequest, servletResponse);
         }
 
 
         //return false if no servlet matched (so we can proceed down to the webapp's servlets)
         return serve;
+    }
+
+
+
+    /**
+     * Utility that delegates to the actual service method of the servlet wrapped with a contextual request.
+     */
+    @SuppressWarnings({"JavaDoc"})
+    void doService(Injector injector, final ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
+        //wrap request & compute correct request paths for this servlet:
+        //noinspection OverlyComplexAnonymousInnerClass
+        HttpServletRequest request = new HttpServletRequestWrapper((HttpServletRequest)servletRequest) {
+            private String path;
+            private boolean pathComputed = false;   //must use a boolean on the memo field, because null is a legal value
+
+            @Override
+            public String getPathInfo() {
+                //filter-path - computed servlet path = warp-servlet's request path info
+                final String superPath = super.getServletPath();
+
+                if (null == superPath || null == computePath())
+                    return null;
+
+                //corner case: if the path is a literal
+                if (superPath.equals(path))
+                    return null;
+
+                return superPath.substring(path.length());  //use path directly since computePath() was run above
+
+            }
+
+            @Override
+            public String getServletPath() {
+                //warp-servlet path = registered path in uri-mapping
+                return computePath();
+            }
+
+            @Override
+            public String getPathTranslated() {
+                final String info = getPathInfo();
+
+                return (null == info) ? null : getRealPath(info);
+            }
+
+            //lazy calc
+            @Nullable
+            private String computePath() {
+                if (!pathComputed) {
+                    path = patternMatcher.extractPath(pattern);
+                    pathComputed = true;
+                }
+
+                return path;
+            }
+        };
+
+
+        injector.getInstance(servletKey)
+                .service(request, servletResponse);
     }
 
 }

@@ -1,9 +1,9 @@
 package com.wideplay.warp.servlet;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.AbstractModule;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
