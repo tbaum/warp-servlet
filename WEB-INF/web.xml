@@ -35,6 +35,10 @@
         <servlet-name>unmanagedServlet</servlet-name>
         <url-pattern>/uninfo/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>unmanagedServlet</servlet-name>
+        <url-pattern>*.unm</url-pattern>
+    </servlet-mapping>
 
 
     <!-- send users to index.html which is served by a warp-managed servlet -->

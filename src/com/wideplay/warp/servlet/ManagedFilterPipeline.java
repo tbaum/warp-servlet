@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created with IntelliJ IDEA.
  * User: dhanji
@@ -24,8 +26,7 @@ import java.util.List;
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
-@Immutable
-@Singleton
+@Immutable @Singleton
 class ManagedFilterPipeline {
     private final List<FilterDefinition> filterDefinitions;
 
@@ -63,7 +64,7 @@ class ManagedFilterPipeline {
                                           final Injector injector) {
         return new HttpServletRequestWrapper((HttpServletRequest) request) {
 
-            @Override
+            @Override     @NotNull
             public RequestDispatcher getRequestDispatcher(String path) {
                 final RequestDispatcher dispatcher = servletPipeline.getRequestDispatcher(path, injector);
 

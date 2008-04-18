@@ -152,7 +152,9 @@ class ServletDefinition {
             @Override
             public String getServletPath() {
                 //warp-servlet path = registered path in uri-mapping
-                return computePath();
+                final String path = computePath();
+                
+                return (null != path) ? path : super.getServletPath();
             }
 
             @Override
