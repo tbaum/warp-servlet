@@ -68,7 +68,7 @@ public class FilterPipelineTest {
                 .anyTimes();
 
         //at the end, proceed down webapp's normal filter chain
-        proceedingFilterChain.doFilter(request, null);
+        proceedingFilterChain.doFilter(isA(HttpServletRequest.class), (ServletResponse) isNull());
         expectLastCall().once();
 
 

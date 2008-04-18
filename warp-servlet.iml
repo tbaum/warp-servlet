@@ -26,8 +26,8 @@
             <attribute name="URI" value="/WEB-INF/classes" />
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/easymock.jar" />
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
             <url>jar://$MODULE_DIR$/lib/easymock.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -36,8 +36,8 @@
             <url>jar://$MODULE_DIR$/lib/guice-1.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/intellij-annotations.jar" />
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
             <url>jar://$MODULE_DIR$/lib/intellij-annotations.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -61,8 +61,8 @@
             <url>jar://$MODULE_DIR$/lib/slf4j-api-1.4.2.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/testng-5.5-jdk15.jar" />
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
             <url>jar://$MODULE_DIR$/lib/testng-5.5-jdk15.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">

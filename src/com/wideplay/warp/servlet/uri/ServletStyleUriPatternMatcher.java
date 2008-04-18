@@ -38,7 +38,7 @@ class ServletStyleUriPatternMatcher implements UriPatternMatcher {
             if (extract.endsWith("/"))
                 extract = extract.substring(0, extract.length() - 1);
 
-            return ("".equals(extract)) ? null : extract;
+            return extract;
         }
 
         //else treat as literal

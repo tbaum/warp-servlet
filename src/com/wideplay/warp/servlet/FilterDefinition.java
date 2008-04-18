@@ -4,8 +4,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.wideplay.warp.servlet.uri.UriPatternMatcher;
 import net.jcip.annotations.Immutable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -100,9 +98,6 @@ class FilterDefinition {
         final String path = ((HttpServletRequest) servletRequest).getServletPath();
 
         if (shouldFilter(path)) {
-            Logger log = LoggerFactory.getLogger(FilterDefinition.class);
-
-            log.debug("Dispatching filter: " + filterKey + " for " + path);
             injector.getInstance(filterKey)
                 .doFilter(servletRequest, servletResponse, filterChainInvocation);
         }

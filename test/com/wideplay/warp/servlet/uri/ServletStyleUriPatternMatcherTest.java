@@ -30,14 +30,13 @@ public class ServletStyleUriPatternMatcherTest {
     @DataProvider(name = PATTERNS_AND_PATHS)
     Object[][] getPatterns() {
         return new Object[][] {
-                { "/*", null},
+                { "/*", ""},
                 { "/public/*", "/public" },
                 { "*.html", null },
                 { "/public/space/*", "/public/space" },
                 { "*.xhtml", null },
                 { "/public/login.html", "/public/login.html" },
                 { "/index.html", "/index.html" },
-//                { "////", null },     // TODO: check servlet spec on this one
                 { "/html/win/*", "/html/win" },
         };
     }

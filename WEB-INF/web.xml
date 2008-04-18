@@ -20,13 +20,13 @@
 
     <filter-mapping>
         <filter-name>webFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/s/*</url-pattern>
     </filter-mapping>
 
 
 
 
-    <!-- IGNORE THIS SERVLET IT IS ONLY HERE FOR SANITY CHECK PURPOSE -->
+    <!-- IGNORE THIS SERVLET IT IS ONLY HERE FOR SANITY CHECK PURPOSE (to compare) -->
     <servlet>
         <servlet-name>unmanagedServlet</servlet-name>
         <servlet-class>com.wideplay.example.servlets.UnmanagedInfoServlet</servlet-class>
@@ -37,8 +37,9 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>unmanagedServlet</servlet-name>
-        <url-pattern>*.unm</url-pattern>
+        <url-pattern>*.uninfo</url-pattern>
     </servlet-mapping>
+    <!-- ********************************************************* -->
 
 
     <!-- send users to index.html which is served by a warp-managed servlet -->

@@ -1,8 +1,8 @@
 package com.wideplay.warp.servlet;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Singleton;
+import com.google.inject.*;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import static org.easymock.EasyMock.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -23,26 +23,44 @@ import java.io.IOException;
  */
 public class RequestInterceptionBehaviorTest {
     private Injector injector;
-    private static String interceptedRemoteUser;
-    private static boolean proxiedCorrectly;
+    private String[] interceptedRemoteUser;        //major ugly hacks because we dont have closures
+    private Boolean[] proxiedCorrectly;            //hey atleast Im not using statics =P
+
     private static final String ORIGINAL_USER = "originalUser";
+    private static final String INTERCEPTED_REMOTE_USER = "interceptedRemoteUser";
+    private static final String PROXIED_CORRECTLY = "proxiedRight";
 
     @BeforeMethod
     void setupFilterChain() {
+
+        //reset
+        interceptedRemoteUser = new String[] {"intercepted"};
+        proxiedCorrectly = new Boolean[] { false };
+        
         injector = Guice.createInjector(Servlets.configure()
                 .filters()
                 .filter("/*").through(InterceptingFilter.class)
+                .filter("/notThis/*").through(NeverFilter.class)
 
                 .servlets()
                 .serve("*.html").with(HtmlServlet.class)
 
-                .buildModule()
+                .buildModule(),
+                new AbstractModule() {
+                    @SuppressWarnings({"InnerClassTooDeeplyNested"})
+                    protected void configure() {
+                        bind(String[].class).annotatedWith(Names.named(INTERCEPTED_REMOTE_USER))
+                                .toInstance(interceptedRemoteUser);
+
+                        bind(Boolean[].class).annotatedWith(Names.named(PROXIED_CORRECTLY))
+                                .toInstance(proxiedCorrectly);
+
+                    }
+                }
         );
 
         //setup the proxy that will be used by the filter to intercept the request
 
-        //reset
-        interceptedRemoteUser = "intercepted";
     }
 
     @Test
@@ -64,7 +82,7 @@ public class RequestInterceptionBehaviorTest {
 
         expect(request.getServletPath())
                 .andReturn("/thing/index.html")
-                .times(2);
+                .anyTimes();
 
         expect(request.getRemoteUser())
                 .andReturn(ORIGINAL_USER)
@@ -78,9 +96,9 @@ public class RequestInterceptionBehaviorTest {
         final WebFilter filter = new WebFilter();
         filter.init(filterConfig);
 
-        assert !proxiedCorrectly : "start state is wrong";
+        assert !proxiedCorrectly[0] : "start state is wrong";
         filter.doFilter(request, null, proceedingFilterChain);
-        assert proxiedCorrectly : "Request did not get proxied by filter";
+        assert proxiedCorrectly[0] : "Request did not get proxied by filter";
 
         filter.destroy();
 
@@ -88,7 +106,7 @@ public class RequestInterceptionBehaviorTest {
         //assert expectations
         verify(request, filterConfig, servletContext);
 
-        assert !proxiedCorrectly : "state did not get reset";
+        assert !proxiedCorrectly[0] : "state did not get reset";
 
     }
 
@@ -96,14 +114,18 @@ public class RequestInterceptionBehaviorTest {
     @Singleton
     public static class InterceptingFilter implements Filter {
         private String remoteUser;
+        @Inject @Named(INTERCEPTED_REMOTE_USER) String[] interceptedRemoteUser;
 
         public void init(FilterConfig filterConfig) throws ServletException {
-            remoteUser = interceptedRemoteUser;
+            remoteUser = interceptedRemoteUser[0];
         }
 
         @SuppressWarnings({"InnerClassTooDeeplyNested"})
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+            System.out.println("Running " + InterceptingFilter.class);
             final HttpServletRequestWrapper httpServletRequestWrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest) {
+
+                @Override
                 public String getRemoteUser() {
                     assert ORIGINAL_USER.equals(super.getRemoteUser()) : "original user was not as expected...";
                     return remoteUser;
@@ -118,24 +140,42 @@ public class RequestInterceptionBehaviorTest {
     }
 
     @Singleton
+    public static class NeverFilter implements Filter {
+
+        public void init(FilterConfig filterConfig) throws ServletException {
+        }
+
+        @SuppressWarnings({"InnerClassTooDeeplyNested"})
+        public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+            assert false : "This filter should never run";
+        }
+
+        public void destroy() {
+        }
+    }
+
+    @Singleton
     public static class HtmlServlet extends HttpServlet {
         private String proxy;
+        @Inject @Named(INTERCEPTED_REMOTE_USER) String[] interceptedRemoteUser;
+        @Inject @Named(PROXIED_CORRECTLY) Boolean[] proxiedCorrectly;
+
 
         public void init(ServletConfig filterConfig) throws ServletException {
             //this trick also helps lifecycle dispatch order is correct
-            this.proxy = interceptedRemoteUser;
-            proxiedCorrectly = false;
+            this.proxy = interceptedRemoteUser[0];
+            proxiedCorrectly[0] = false;
         }
 
         public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws IOException, ServletException {
             final String remoteUser = ((HttpServletRequest) servletRequest).getRemoteUser();
-            proxiedCorrectly = proxy.equals(remoteUser);
+            proxiedCorrectly[0] = proxy.equals(remoteUser);
 
             assert !ORIGINAL_USER.equals(remoteUser) : "did not get proxied correctly";
         }
 
         public void destroy() {
-            proxiedCorrectly = false;
+            proxiedCorrectly[0] = false;
             this.proxy = null;
         }
     }

@@ -131,30 +131,35 @@ class ServletDefinition {
         //noinspection OverlyComplexAnonymousInnerClass
         HttpServletRequest request = new HttpServletRequestWrapper((HttpServletRequest)servletRequest) {
             private String path;
-            private boolean pathComputed = false;   //must use a boolean on the memo field, because null is a legal value
+            private boolean pathComputed = false;   //must use a boolean on the memo field, because null is a legal value (TODO no its not)
+
+            private boolean pathInfoComputed = false;
+            private String pathInfo;   //must use a boolean on the memo field, because null is a legal value
+
 
             @Override
             public String getPathInfo() {
-                //filter-path - computed servlet path = warp-servlet's request path info
-                final String superPath = super.getServletPath();
+                if (!pathInfoComputed) {
+                    final int servletPathLength = getServletPath().length();
+                    pathInfo = getRequestURI()
+                                    .substring(getContextPath().length())
+                                    .replaceAll("[/]{2,}", "/")
+                                    .substring(servletPathLength);
 
-                if (null == superPath || null == computePath())
-                    return null;
+                    //corner case, when servlet path and request path match exactly (without trailing '/'), pathinfo is null
+                    if ("".equals(pathInfo) && servletPathLength != 0)
+                        pathInfo = null;
 
-                //corner case: if the path is a literal
-                if (superPath.equals(path))
-                    return null;
+                    pathInfoComputed = true;
+                }
 
-                return superPath.substring(path.length());  //use path directly since computePath() was run above
-
+                return pathInfo;
             }
 
             @Override
             public String getServletPath() {
                 //warp-servlet path = registered path in uri-mapping
-                final String path = computePath();
-                
-                return (null != path) ? path : super.getServletPath();
+                return computePath();
             }
 
             @Override
@@ -164,12 +169,15 @@ class ServletDefinition {
                 return (null == info) ? null : getRealPath(info);
             }
 
-            //lazy calc
             @Nullable
+            //memoizer pattern
             private String computePath() {
                 if (!pathComputed) {
                     path = patternMatcher.extractPath(pattern);
                     pathComputed = true;
+
+                    if (null == path)
+                        path = super.getServletPath();
                 }
 
                 return path;
