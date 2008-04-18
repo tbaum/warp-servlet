@@ -3,6 +3,7 @@ package com.wideplay.warp.servlet;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import net.jcip.annotations.Immutable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,8 +11,6 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,7 +63,7 @@ class ManagedFilterPipeline {
                                           final Injector injector) {
         return new HttpServletRequestWrapper((HttpServletRequest) request) {
 
-            @Override     @NotNull
+            @Override @NotNull
             public RequestDispatcher getRequestDispatcher(String path) {
                 final RequestDispatcher dispatcher = servletPipeline.getRequestDispatcher(path, injector);
 

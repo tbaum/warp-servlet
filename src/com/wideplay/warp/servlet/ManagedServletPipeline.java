@@ -3,13 +3,12 @@ package com.wideplay.warp.servlet;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import net.jcip.annotations.Immutable;
+import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.*;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -63,6 +62,12 @@ class ManagedServletPipeline {
 
                     public void forward(ServletRequest servletRequest, ServletResponse servletResponse)
                             throws ServletException, IOException {
+
+                        if (servletResponse.isCommitted())
+                            throw new IllegalStateException("Response has been committed--you can only call forward before committing the response (hint: don't flush buffers)");
+
+                        //clear buffer before forwarding
+                        servletResponse.resetBuffer();
 
                         //TODO what does forward really do?
                         servletDefinition.doService(injector, servletRequest, servletResponse);

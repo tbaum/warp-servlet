@@ -69,6 +69,7 @@ public class ServletDefinitionPathsTest {
         expect(request.getServletPath())
                 .andReturn(requestPath);
 
+        
         replay(injector, request);
 
 
@@ -79,6 +80,7 @@ public class ServletDefinitionPathsTest {
 
 
         assert run[0] : "Servlet did not run!";
+
 
     }
 
