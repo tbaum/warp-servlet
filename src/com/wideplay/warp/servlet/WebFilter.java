@@ -46,6 +46,7 @@ public final class WebFilter implements Filter {
 
             //let's store this one we've found...
             ContextManager.setInjector(injector);
+            ContextManager.setServletContext(servletContext);
         }
 
         //initialize all registered filters & servlets in that order

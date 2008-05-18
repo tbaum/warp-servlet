@@ -21,8 +21,10 @@ package com.wideplay.warp.servlet;
 import com.google.inject.Injector;
 import net.jcip.annotations.ThreadSafe;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created with IntelliJ IDEA.
@@ -44,6 +46,8 @@ class ContextManager {
     private static volatile Injector globalInjector = null;
 
     private static final ThreadLocal<Context> localContext = new ThreadLocal<Context>();
+    private static final AtomicReference<ServletContext> servletContext =
+            new AtomicReference<ServletContext>();
 
 
     static void setInjector(Injector injector) {
@@ -85,6 +89,14 @@ class ContextManager {
                     + " as a servlet filter for this request.");
         }
         return context;
+    }
+
+    static ServletContext getServletContext() {
+        return servletContext.get();
+    }
+
+    public static void setServletContext(ServletContext servletContext) {
+        ContextManager.servletContext.set(servletContext);
     }
 
     static class Context {
