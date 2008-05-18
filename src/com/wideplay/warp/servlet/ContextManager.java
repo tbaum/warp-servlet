@@ -95,8 +95,8 @@ class ContextManager {
         return servletContext.get();
     }
 
-    public static void setServletContext(ServletContext servletContext) {
-        ContextManager.servletContext.set(servletContext);
+    public static void setServletContext(ServletContext context) {
+        servletContext.set(context);
     }
 
     static class Context {

@@ -28,6 +28,9 @@ public final class WebFilter implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
         final ServletContext servletContext = filterConfig.getServletContext();
+
+        //setup servlet context for injection
+        ContextManager.setServletContext(servletContext);
         
         //get and cache injector in ContextManager
         Injector injector = ContextManager.getInjector();
@@ -46,7 +49,6 @@ public final class WebFilter implements Filter {
 
             //let's store this one we've found...
             ContextManager.setInjector(injector);
-            ContextManager.setServletContext(servletContext);
         }
 
         //initialize all registered filters & servlets in that order
