@@ -69,7 +69,7 @@ class ManagedServletPipeline {
                         //clear buffer before forwarding
                         servletResponse.resetBuffer();
 
-                        //TODO what does forward really do?
+                        //now dispatch to the servlet
                         servletDefinition.doService(injector, servletRequest, servletResponse);
                     }
 

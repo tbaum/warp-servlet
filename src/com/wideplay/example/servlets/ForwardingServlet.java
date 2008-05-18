@@ -2,6 +2,7 @@ package com.wideplay.example.servlets;
 
 import com.google.inject.Singleton;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,11 @@ public class ForwardingServlet extends HttpServlet {
         out.println("This content should never be seen");
         out.println("</body></html>");
 
-        request .getRequestDispatcher("/sampleInclude.jsp")
+        final RequestDispatcher dispatcher = request.getRequestDispatcher("/sampleInclude.jsp");
+
+        System.out.println("DispatcherClass: " + dispatcher.getClass());
+
+        dispatcher
                 .forward(request, httpServletResponse);
     }
 }

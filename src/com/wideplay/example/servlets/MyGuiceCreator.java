@@ -35,7 +35,8 @@ public class MyGuiceCreator extends WarpServletContextListener {
                     .serve("/info/*").with(RequestInfoServlet.class)
                     .serve("/forward").with(ForwardingServlet.class)
                     .serve("*.info").with(RequestInfoServlet.class)
-                    .serve("/includer").with(RequestDispatchingServlet.class)
+                    .serve("/include/jsp").with(IncludingServlet.class)
+                    .serve("/include/managed").with(ManagedIncludingServlet.class)
 
                 .buildModule(),
 

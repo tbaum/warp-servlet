@@ -18,7 +18,7 @@ import java.io.PrintWriter;
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 @Singleton
-public class RequestDispatchingServlet extends HttpServlet {
+public class ManagedIncludingServlet extends HttpServlet {
     //this servlet is also managed by guice, so you can inject, scope or intercept it as you please.
 
 
@@ -29,9 +29,10 @@ public class RequestDispatchingServlet extends HttpServlet {
 
         out.println("<html><head><title>Warp::Servlet powered servlet</title></head>");
         out.println("<body>");
-        out.println("Hello from a servlet that includes a JSP (sampleInclude.jsp):");
-        request.getRequestDispatcher("/sampleInclude.jsp").include(request, response);
-        out.println("</body></html>");
+        out.println("Hello from a servlet that includes another managed servlet (HelloWorldServlet):<p><b>");
+        request.getRequestDispatcher("/hello/hi")
+                .include(request, response);
+        out.println("</b></p></body></html>");
 
         //write!
         out.flush();
