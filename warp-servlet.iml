@@ -66,8 +66,8 @@
             <url>jar://$MODULE_DIR$/lib/testng-5.5-jdk15.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/warp-jcip-annotations.jar" />
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
             <url>jar://$MODULE_DIR$/lib/warp-jcip-annotations.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -206,6 +206,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/intellij-annotations.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/xwork-2.0.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

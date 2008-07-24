@@ -2,9 +2,12 @@ package com.wideplay.warp.servlet;
 
 import com.google.inject.Injector;
 import com.google.inject.util.Objects;
+import com.opensymphony.xwork2.ObjectFactory;
 import org.apache.wicket.Application;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WicketFilter;
+
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,5 +34,28 @@ public final class Integrate {
                     "your filters and servlets should should be in Warp-servlet and not appear web.xml at all.");
 
         return new GuiceComponentInjector(wicketApplication, injector);
+    }
+
+    public static class GuiceObjectFactory extends ObjectFactory {
+
+        @Override
+        public boolean isNoArgConstructorRequired() {
+            return false;
+        }
+
+        @Override @SuppressWarnings("unchecked")
+        public Object buildBean(Class aClass, Map map) throws Exception {
+            Injector injector = ContextManager.getInjector();
+
+            if (null == injector) {
+                throw new IllegalStateException("Warp-servlet was not active, no Guice Injector context could be found. " +
+                    "Did you forget to register " + WebFilter.class.getName() + " in web.xml? Or did you register " +
+                    "StrutsFilter *above* it in web.xml by mistake? Remember " + WebFilter.class.getSimpleName() +
+                    " must appear *before* any Filters that use Guice. ");
+            }
+
+            //noinspection unchecked
+            return injector.getInstance(aClass);
+        }
     }
 }

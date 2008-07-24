@@ -52,6 +52,111 @@ public final class Servlets {
     private Servlets() {
     }
 
+    /**
+     *
+     * <h3>Mapping EDSL</h3>
+     * <p>
+     * Part of the EDSL builder language for configuring servlets and filters with warp-servlet.
+     * Think of this as an in-code replacement for web.xml tags. Filters and servlets are configured
+     * here using simple java method calls. Here is a typical example of registering a filter when
+     * creating/configuring your Guice injector:
+     *
+     * <pre>
+     *   Guice.createInjector(..., Servlets.configure()
+     *      .filters()
+     *      .servlets()
+     *          <b>.serve("*.html").with(MyServlet.class)</b>
+     *
+     *      .buildModule();
+     * </pre>
+     *
+     * This registers a servlet (subclass of {@code HttpServlet}) named {@code MyServlet} to service
+     * any web pages ending in .html. You can also use the path-style syntax to register servlets:
+     *
+     * <pre>
+     *          <b>.serve("/my/*").with(MyServlet.class)</b>
+     * </pre>
+     *
+     * You are free to register as many servlets and filters as you like this way:
+     *
+     * <pre>
+     *   Guice.createInjector(..., Servlets.configure()
+     *      .filters()
+     *          .filter("/*").through(MyFilter.class)
+     *          .filter("*.css").through(MyCssFilter.class)
+     *          //etc..
+     *
+     *      .servlets()
+     *          .serve("*.html").with(MyServlet.class)
+     *          .serve("/my/*").with(MyServlet.class)
+     *          //etc..
+     *
+     *      .buildModule();
+     * </pre>
+     *
+     * You can also map servlets (or filters) to URIs using regular expressions:
+     * <pre>
+     *      .servlets()
+     *          <b>.serveRegex("(.)*ajax(.)*").with(MyAjaxServlet.class)</b>
+     * </pre>
+     *
+     * This will map any URI containing the text "ajax" in it to {@code MyAjaxServlet}. Such as:
+     * <ul>
+     *   <li>http://www.wideplay.com/ajax.html</li>
+     *   <li>http://www.wideplay.com/content/ajax/index</li>
+     *   <li>http://www.wideplay.com/it/is_totally_ajaxian</li>
+     * </ul>
+     *
+     * </p>
+     *
+     * <h3>Initialization Parameters</h3>
+     * Servlets (and filters) allow you to pass in init params using the {@code <init-param>}
+     * tag in web.xml. You can similarly pass in parameters to Servlets and filters registered
+     * in warp-servlet using a {@link java.util.Map} of parameter name/value pairs. For example,
+     * to initialize {@code MyServlet} with two parameters (name="Dhanji", site="wideplay.com") you
+     * could write:
+     *
+     * <pre>
+     *  Map<String, String> params = new HashMap<String, String>();
+     *  params.put("name", "Dhanji");
+     *  params.put("site", "wideplay.com");
+     *
+     *  ...
+     *      .servlets()
+     *          .serve("/*").with(MyServlet.class, <b>params</b>)
+     * </pre>
+     *
+     * </p>
+     * <h3>Binding Guice Keys</h3>
+     *
+     * <p>
+     * Warp-servlet lets you bind Guice-keys rather than classes directly. This lets you hide
+     * implementation classes (servlets, filters) with package-local visbility and expose them using only
+     * a Guice module and an annotation. Here is how this might work:
+     *
+     * <pre>
+     *
+     *      ...
+     *      .filters()
+     *          .filter("/*").through(<b>Key.get(Filter.class, Fave.class)</b>);
+     * </pre>
+     *
+     * Where {@code Filter.class} refers to the Servlet API interface and {@code Fave.class} is a custom
+     * binding annotation that refers to your implementation. Elsewhere (in one of your own modules) you
+     * can bind this filter's implementation:
+     *
+     * <pre>
+     * 
+     *   bind(Filter.class)<b>.annotatedWith(Fave.class)</b>.to(MyHiddenFilterImpl.class);
+     * </pre>
+     *
+     * See Guice documentation for more information on binding annotations and best practices.
+     *
+     * Also see <a href="http://www.wideplay.com">http://www.wideplay.com</a> for more details and examples.
+     * </p>
+     *
+     * @return Returns the next step in the EDSL chain.
+     */
     public static WebComponentBindingBuilder configure() {
         return new WebComponentBindingBuilder() {
             public FilterBindingBuilder filters() {

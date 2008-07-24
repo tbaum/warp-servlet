@@ -9,16 +9,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 12:59:48 PM
  *
  * <p>
  * Register this filter in web.xml above all other filters (typically), this is needed in order to
- * dispatch requests to warp-servlet managed filters and servlets.
+ * dispatch requests to warp-servlet managed filters and servlets. First you need to register a filter in web.xml:
+ *  <pre>
+ *  &lt;filter&gt;
+ *      &lt;filter-name&gt;warpServletFilter&lt;/filter-name&gt;
+ *      &lt;filter-class&gt;<b>com.wideplay.warp.servlet.WebFilter</b>&lt;/filter-class&gt;
+ *  &lt;/filter&gt;
+ *  &lt;filter-mapping&gt;
  *
- * Take a look at http://www.wideplay.com for more details and examples.
+ *  &lt;filter-name&gt;warpServletFilter&lt;/filter-name&gt;
+ *      &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+ *  &lt;/filter-mapping&gt;
+ *  </pre>
+ *
+ * This filter should appear above every filter that makes use of Guice injection or warp-servlet scopes functionality.
+ * Ideally, you want to register ONLY this filter in web.xml and register any other filters using warp-servlet see
+ * {@link Servlets#configure()} for details on how to do this.
+ * </p>
+ * <p>
+ * You only really want to place sitemesh and similar purely decorative filters above {@code WebFilter} in web.xml.
+ *
+ * Take a look at <a href="http://www.wideplay.com">http://www.wideplay.com</a> for more details and examples.
  * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
