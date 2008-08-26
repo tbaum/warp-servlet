@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 5:53:46 PM
+ *
+ * Builds the guice module that binds configured servlets, with their wrapper ServletDefinitions.
+ * Is part of the binding EDSL. Very similar to {@link FiltersModuleBuilder}.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
+ * @see Servlets
  */
 @NotThreadSafe  //intended to be confined to a single thread and disposed after injector creation
 class ServletsModuleBuilder extends AbstractModule implements ServletBindingBuilder {

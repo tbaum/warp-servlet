@@ -8,10 +8,7 @@ import net.jcip.annotations.Immutable;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,7 +34,7 @@ class FilterDefinition {
         this.pattern = pattern;
         this.filterKey = filterKey;
         this.patternMatcher = patternMatcher;
-        this.initParams = Collections.unmodifiableMap(initParams);
+        this.initParams = Collections.unmodifiableMap(new HashMap<String, String>(initParams));
     }
 
     private boolean shouldFilter(String uri) {

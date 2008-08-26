@@ -11,10 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 8:22:32 PM
  *
  * A wrapping dispatcher for servlets, in much the same way as ManagedFilterPipeline is for filters.
  *

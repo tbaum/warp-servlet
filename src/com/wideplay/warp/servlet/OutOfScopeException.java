@@ -1,11 +1,9 @@
 package com.wideplay.warp.servlet;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 2:37:33 PM
- *
+ * Thrown when a request-, session-, flash-, or conversation- scoped object is injected and there
+ *  is no HTTP request currently active. For example, in the init() or destroy() lifecycle of a servlet.
+ * 
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 class OutOfScopeException extends RuntimeException {

@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 5:53:46 PM
+ * Builds the guice module that binds configured filters, with their wrapper FilterDefinitions.
+ * Is part of the binding EDSL.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
+ * @see com.wideplay.warp.servlet.Servlets
  */
 @NotThreadSafe  //intended to be confined to a single thread and disposed after injector creation
 class FiltersModuleBuilder extends AbstractModule implements FilterBindingBuilder {
     private List<FilterDefinition> filterDefinitions = new ArrayList<FilterDefinition>();
 
     //invoked on injector config
+    @Override
     protected void configure() {
         //bind these filter definitions to a config placeholder object
         bind(ManagedFilterPipeline.class)

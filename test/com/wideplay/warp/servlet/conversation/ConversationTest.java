@@ -75,6 +75,7 @@ public class ConversationTest {
         verify(response);
     }
 
+    @SuppressWarnings("deprecation")
     private HttpServletRequest createDummyRequest() {
         return new HttpServletRequestWrapper(createNiceMock(HttpServletRequest.class)) {
             private final Map<String, Object> attributes = new HashMap<String, Object>();

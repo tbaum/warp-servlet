@@ -28,12 +28,12 @@ public class WicketTest {
 
     @Test(expectedExceptions = NullPointerException.class)
     public final void integrateNullApp() {
-        Integrate.with(null);
+        Wicket.integrate(null);
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public final void integrateAppNoContext() {
-        Integrate.with(new WebApplication() {
+        Wicket.integrate(new WebApplication() {
             public Class getHomePage() {
                 return Void.class;
             }
@@ -45,7 +45,7 @@ public class WicketTest {
     public final void integrateApp() {
         ContextManager.setInjector(Guice.createInjector());
 
-        Integrate.with(new WebApplication() {
+        Wicket.integrate(new WebApplication() {
             public Class getHomePage() {
                 return Void.class;
             }

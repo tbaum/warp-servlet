@@ -4,10 +4,7 @@ import net.jcip.annotations.Immutable;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 5:47:24 PM
+ * Matchers URIs using the pattern grammar of the Servlet API and web.xml.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */

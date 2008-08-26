@@ -72,6 +72,7 @@ public final class WebFilter implements Filter {
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
+
         //first setup the request context
         try {
             ContextManager.set((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
@@ -91,11 +92,16 @@ public final class WebFilter implements Filter {
     public void destroy() {
         final Injector injector = ContextManager.getInjector();
 
-        //destroy all registered filters & servlets in that order
-        injector.getInstance(ManagedFilterPipeline.class)
-                .destroyPipeline(injector);
+        try {
+            //destroy all registered filters & servlets in that order
+            injector.getInstance(ManagedFilterPipeline.class)
+                    .destroyPipeline(injector);
 
-        //clear reference to injector
-        ContextManager.setInjector(null);
+        } finally {
+
+            //clear reference to injector
+            ContextManager.cleanup();
+        }
+
     }
 }

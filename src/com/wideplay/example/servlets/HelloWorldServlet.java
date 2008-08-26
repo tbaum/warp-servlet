@@ -10,10 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 20, 2007
- * Time: 1:44:20 PM
+ * Example Hello World with Warp-servlet.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */

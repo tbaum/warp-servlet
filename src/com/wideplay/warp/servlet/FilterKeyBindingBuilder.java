@@ -6,12 +6,9 @@ import javax.servlet.Filter;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 1:44:26 PM
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
+ * @see com.wideplay.warp.servlet.Servlets#configure() Mapping EDSL
  */
 public interface FilterKeyBindingBuilder {
     FilterBindingBuilder through(Class<? extends Filter> filterKey);

@@ -6,14 +6,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 2:30:59 PM
- *
  * <p>
- *  Scope for Requests. Not bound by default, use if you wish by adding
- * this line to your Guice module:
+ *  Scope for HTTP Requests. Exactly the same as Guice's request scope.
+ * Not bound by default, use if you wish by adding this line to your Guice module:
  * </p>
  *
  * <pre>

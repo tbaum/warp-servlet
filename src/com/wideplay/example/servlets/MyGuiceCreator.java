@@ -11,10 +11,8 @@ import com.wideplay.warp.servlet.WarpServletContextListener;
 import javax.servlet.http.HttpServlet;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 20, 2007
- * Time: 1:38:13 PM
+ * This ServletContextListener is registered in web.xml and creates the Guice injector when the
+ *  webapp is deployed. You must configure Guice and the warp-servlet pipeline (and any other modules) here.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */

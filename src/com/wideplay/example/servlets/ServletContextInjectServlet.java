@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 20, 2007
- * Time: 1:44:20 PM
+ * Example of injecting the ServletContext with a Provider.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */

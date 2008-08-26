@@ -5,10 +5,7 @@ import com.google.inject.Provider;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 20, 2007
- * Time: 12:03:00 AM
+ * Provides the current HTTP request (threadlocal).
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */

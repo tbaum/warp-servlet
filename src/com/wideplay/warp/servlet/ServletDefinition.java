@@ -11,21 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 5:43:10 PM
  *
  * <p>
  *
- *  An internal representation of a servlet definition against a particular URI pattern, also performs
- *  the request dispatch.
+ *  An internal representation of a servlet definition mapped to a particular URI pattern. Also performs
+ *  the request dispatch to that servlet. How nice and OO =)
  * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
@@ -41,7 +34,7 @@ class ServletDefinition {
         this.pattern = pattern;
         this.servletKey = servletKey;
         this.patternMatcher = patternMatcher;
-        this.initParams = Collections.unmodifiableMap(initParams);
+        this.initParams = Collections.unmodifiableMap(new HashMap<String, String>(initParams));
     }
 
     boolean shouldServe(String uri) {
@@ -124,14 +117,17 @@ class ServletDefinition {
 
     /**
      * Utility that delegates to the actual service method of the servlet wrapped with a contextual request.
+     * 
+     * We need to suppress deprecation coz we use HttpServletRequestWrapper, which implements deprecated
+     *  API for backwards compatibility.
      */
-    @SuppressWarnings({"JavaDoc"})
+    @SuppressWarnings({"JavaDoc", "deprecation"})
     void doService(Injector injector, final ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         //wrap request & compute correct request paths for this servlet:
         //noinspection OverlyComplexAnonymousInnerClass
         HttpServletRequest request = new HttpServletRequestWrapper((HttpServletRequest)servletRequest) {
             private String path;
-            private boolean pathComputed = false;   //must use a boolean on the memo field, because null is a legal value (TODO no its not)
+            private boolean pathComputed = false;   //must use a boolean on the memo field, because null is a legal value (TODO no, it's not)
 
             private boolean pathInfoComputed = false;
             private String pathInfo;   //must use a boolean on the memo field, because null is a legal value

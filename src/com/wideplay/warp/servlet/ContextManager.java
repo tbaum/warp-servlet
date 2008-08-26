@@ -27,10 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 2:35:22 PM
+ *
+ * Based on GuiceFilter.
  *
  * Manages the current "context" for warp-servlet internally as regards sessions,
  * requests, injectors and conversations. Everything is thread local except the
@@ -43,7 +41,7 @@ import java.util.concurrent.atomic.AtomicReference;
 class ContextManager {
 
     //after publication by calling setInjector(), is effectively immutable
-    private static volatile Injector globalInjector = null;
+    private static final AtomicReference<Injector> rootInjector = new AtomicReference<Injector>();
 
     private static final ThreadLocal<Context> localContext = new ThreadLocal<Context>();
     private static final AtomicReference<ServletContext> servletContext =
@@ -51,15 +49,11 @@ class ContextManager {
 
 
     static void setInjector(Injector injector) {
-        if (null != injector && null != globalInjector)
-            throw new IllegalStateException("Tried to set an Injector when one has already been set. " +
-                    "Did you accidentally register two WebFilters?");
-
-        globalInjector = injector;
+        rootInjector.set(injector);
     }
 
     static Injector getInjector() {
-        return globalInjector;
+        return rootInjector.get();
     }
 
     static void set(HttpServletRequest request, HttpServletResponse response) {
@@ -68,7 +62,6 @@ class ContextManager {
 
     //absolutely must be called at the end of a request
     static void unset() {
-
         localContext.remove();
     }
 
@@ -88,6 +81,7 @@ class ContextManager {
                     + " have forgotten to apply " + WebFilter.class.getName()
                     + " as a servlet filter for this request.");
         }
+
         return context;
     }
 
@@ -95,8 +89,13 @@ class ContextManager {
         return servletContext.get();
     }
 
-    public static void setServletContext(ServletContext context) {
+    static void setServletContext(ServletContext context) {
         servletContext.set(context);
+    }
+
+    static void cleanup() {
+        rootInjector.set(null);
+        servletContext.set(null);
     }
 
     static class Context {

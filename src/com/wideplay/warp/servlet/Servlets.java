@@ -33,10 +33,6 @@ import java.util.Map;
 
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 1:42:25 PM
  *
  * <p>
  *
@@ -47,6 +43,7 @@ import java.util.Map;
  * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
+ * @see com.wideplay.warp.servlet.WebFilter Configuring the WebFilter
  */
 public final class Servlets {
     private Servlets() {
@@ -156,6 +153,7 @@ public final class Servlets {
      * </p>
      *
      * @return Returns the next step in the EDSL chain.
+     * @see com.wideplay.warp.servlet.WebFilter Configuring the WebFilter
      */
     public static WebComponentBindingBuilder configure() {
         return new WebComponentBindingBuilder() {

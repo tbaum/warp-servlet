@@ -24,17 +24,23 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 /**
+ * Based on Guice's com.google.inject.servlet.GuiceServletContextListener.
+ *
  * Register your own subclass of this as a servlet context listener.
  *
  * @author Kevin Bourrillion (kevinb@google.com), Dhanji R. Prasanna (dhanji@gmail.com)
  */
-public abstract class WarpServletContextListener
-        implements ServletContextListener {
+public abstract class WarpServletContextListener implements ServletContextListener {
 
     static final String INJECTOR_NAME = Injector.class.getName();
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
+
+        //sanity check
+        if (null != ContextManager.getInjector())
+            throw new IllegalStateException("There is already a root injector for this web application. Did you " +
+                    "accidentally register more than one " + WebFilter.class.getName() + " in web.xml?");
 
         final Injector injector = getInjector();
         servletContext.setAttribute(INJECTOR_NAME, injector);
@@ -42,11 +48,10 @@ public abstract class WarpServletContextListener
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        //ContextManager's injector ref is cleaned up already by this point (in Filter destroy() event).
         ServletContext servletContext = servletContextEvent.getServletContext();
         servletContext.removeAttribute(INJECTOR_NAME);
         
-        //clear internal context
-        ContextManager.setInjector(null);
     }
 
     /**
@@ -54,6 +59,7 @@ public abstract class WarpServletContextListener
      * injector.
      *
      * @return Returns a new or located injector to plug into your warp-servlet application.
+     * @see com.wideplay.warp.servlet.Servlets#configure() Configuring warp-servlet.
      */
     protected abstract Injector getInjector();
 }

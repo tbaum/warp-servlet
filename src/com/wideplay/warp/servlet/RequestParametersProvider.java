@@ -5,10 +5,7 @@ import com.google.inject.Provider;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 21, 2007
- * Time: 2:12:13 PM
+ * Provides the current HTTP request parameters in a map (threadlocal).
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */

@@ -3,10 +3,7 @@ package com.wideplay.warp.servlet.uri;
 import net.jcip.annotations.Immutable;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 5:46:10 PM
+ * Matchers URIs using a given regular expression. No path info is available when using regexes.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */

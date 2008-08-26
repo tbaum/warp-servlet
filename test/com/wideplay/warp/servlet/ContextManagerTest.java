@@ -2,8 +2,12 @@ package com.wideplay.warp.servlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import static org.easymock.EasyMock.createMock;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,7 +20,7 @@ import org.testng.annotations.Test;
 public class ContextManagerTest {
     @BeforeMethod
     public final void reset() {
-        ContextManager.setInjector(null);
+        ContextManager.cleanup();
     }
 
     @Test
@@ -28,14 +32,23 @@ public class ContextManagerTest {
         assert injector == ContextManager.getInjector() : "incorrect injector returned";
 
         //TODO test in multi-threaded environment
-        ContextManager.setInjector(null);
+        ContextManager.cleanup();
 
         assert null == ContextManager.getInjector() : "injector not cleared";
     }
 
     @Test(expectedExceptions = IllegalStateException.class)
     public final void duplicateSetInjector() {
-        ContextManager.setInjector(Guice.createInjector());
-        ContextManager.setInjector(Guice.createInjector());
+        final WarpServletContextListener listener = new WarpServletContextListener() {
+
+            @Override
+            protected Injector getInjector() {
+                return createMock(Injector.class);
+            }
+        };
+
+
+        listener.contextInitialized(new ServletContextEvent(createMock(ServletContext.class)) { });
+        listener.contextInitialized(new ServletContextEvent(createMock(ServletContext.class)) { });
     }
 }

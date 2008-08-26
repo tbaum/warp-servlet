@@ -13,15 +13,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 5:42:41 PM
  *
- * <p>
- *
- * Central routing/dispatch class handles lifecycle of managed filters.
- * </p>
+ * Central routing/dispatch class handles lifecycle of managed filters, and delegates to the servlet
+ *  pipeline.
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
@@ -44,11 +38,14 @@ class ManagedFilterPipeline {
                 .init(servletContext, injector);
     }
 
-    public void dispatch(Injector injector, ServletRequest request, ServletResponse response, FilterChain proceedingFilterChain)
-            throws IOException, ServletException {
 
-        //invoke over the filter/servlet pipeline with the given request/response
+    public void dispatch(Injector injector, ServletRequest request, ServletResponse response,
+                         FilterChain proceedingFilterChain) throws IOException, ServletException {
+
+        //obtain the servlet pipeline to dispatch against (we use the locator to avoid holding refs)
         final ManagedServletPipeline servletPipeline = injector.getInstance(ManagedServletPipeline.class);
+
+        //invocation is patterned after Jetty/Tomcat's filter chain, with iterative dispatch along the pipeline
         new FilterChainInvocation(filterDefinitions, servletPipeline, proceedingFilterChain, injector)
                 .doFilter(withDispatcher(request, servletPipeline, injector), response);
 
@@ -58,7 +55,7 @@ class ManagedFilterPipeline {
      * Used to create an proxy that dispatches either to the warp-servlet pipeline or the regular pipeline based on
      * uri-path match. 
      */
-    @SuppressWarnings("JavaDoc")
+    @SuppressWarnings({ "JavaDoc", "deprecation" })
     private ServletRequest withDispatcher(ServletRequest request, final ManagedServletPipeline servletPipeline,
                                           final Injector injector) {
         return new HttpServletRequestWrapper((HttpServletRequest) request) {

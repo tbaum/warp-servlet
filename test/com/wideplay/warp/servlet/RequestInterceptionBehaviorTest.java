@@ -120,7 +120,7 @@ public class RequestInterceptionBehaviorTest {
             remoteUser = interceptedRemoteUser[0];
         }
 
-        @SuppressWarnings({"InnerClassTooDeeplyNested"})
+        @SuppressWarnings({"InnerClassTooDeeplyNested", "deprecation"})
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
             System.out.println("Running " + InterceptingFilter.class);
             final HttpServletRequestWrapper httpServletRequestWrapper = new HttpServletRequestWrapper((HttpServletRequest) servletRequest) {

@@ -9,15 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 20, 2007
- * Time: 12:06:43 AM
- *
  * <p>
  *
- * A general module where web artifacts are bound. Mostly stuff that's
- * not specific to filters or servlets.
+ * A general module where some of the other web artifacts are bound. Mostly stuff that's
+ * not specific to filters or servlets, but that warp-servlet needs to provide.
  *
  * </p>
  *

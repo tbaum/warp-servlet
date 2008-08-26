@@ -1,7 +1,7 @@
 package com.wideplay.warp.servlet;
 
-import com.opensymphony.xwork2.ObjectFactory;
 import com.google.inject.Injector;
+import com.opensymphony.xwork2.ObjectFactory;
 
 import java.util.Map;
 
@@ -28,6 +28,10 @@ import java.util.Map;
  * Another advantage of this integration plugin is that you can use warp-persist's SPR filters via
  * warp-servlet and not bother with Struts interceptors. This is particularly useful if you have other
  * servlets/filters that require persistence support (such as a SOAP service).
+ *
+ * One disadvantage is that it does not scan the classpath and automatically bind struts actions. This
+ * may mean that some of the early error detection Guice provides is not available. On the other hand
+ * startup is faster =) 
  * </p>
  *
  * @author Dhanji R. Prasanna (dhanji@gmail.com)
