@@ -63,6 +63,12 @@ class UrlRewrittenConversation implements Conversation {
         conversationManager.endConversation(conversationKey);
     }
 
+    public String rewrite(String url) {
+        //TODO need to fix this
+
+        return url;
+    }
+
     @NotNull
     public <T> T provide(Key<T> key, Provider<T> creator, HttpServletRequest request) {
         final String conversationKey = (String) request.getAttribute(CONVERSATION_ID);

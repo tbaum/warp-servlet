@@ -23,4 +23,12 @@ public interface Conversation {
     void begin();
 
     void end();
+
+    /**
+     * Analogous to the session URL rewriting utility in Servlet.
+     *
+     * @param url A url to be emitted under this conversation.
+     * @return Returns the rewritten ready for sending to a browser.
+     */
+    String rewrite(String url);
 }
