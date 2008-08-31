@@ -23,7 +23,6 @@ import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import com.wideplay.warp.servlet.conversation.ConversationManager;
 import com.wideplay.warp.servlet.conversation.ConversationScoped;
 
 import javax.servlet.http.HttpServletRequest;
@@ -306,8 +305,8 @@ public final class Servlets {
 
                     //locate the conv manager, and obtain a contextual instance, creating one if absent
                     return ContextManager.getInjector()
-                            .getInstance(ConversationManager.class)
-                            .getAndPutIfAbsent(key, creator, ContextManager.getRequest());
+                            .getInstance(UrlRewrittenConversation.class)
+                            .provide(key, creator, ContextManager.getRequest());
                 }
             };
         }

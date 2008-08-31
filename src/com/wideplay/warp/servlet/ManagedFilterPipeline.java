@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import net.jcip.annotations.Immutable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -53,12 +54,20 @@ class ManagedFilterPipeline {
 
     /**
      * Used to create an proxy that dispatches either to the warp-servlet pipeline or the regular pipeline based on
-     * uri-path match. 
+     * uri-path match. Also extracts and sets up Conversation context.
+     *
      */
     @SuppressWarnings({ "JavaDoc", "deprecation" })
-    private ServletRequest withDispatcher(ServletRequest request, final ManagedServletPipeline servletPipeline,
+    private ServletRequest withDispatcher(ServletRequest servletRequest, final ManagedServletPipeline servletPipeline,
                                           final Injector injector) {
-        return new HttpServletRequestWrapper((HttpServletRequest) request) {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+
+        //if this URL contains a conversation id
+        final int keyOffset = UrlRewrittenConversation.conversationKeyOffset(request);
+
+
+        //noinspection OverlyComplexAnonymousInnerClass
+        return new HttpServletRequestWrapper(request) {
 
             @Override @NotNull
             public RequestDispatcher getRequestDispatcher(String path) {
@@ -67,7 +76,12 @@ class ManagedFilterPipeline {
                 return (null != dispatcher) ? dispatcher : super.getRequestDispatcher(path);
             }
 
-            
+            @Override @Nullable
+            public String getQueryString() {
+                return keyOffset > -1 ?
+                          super.getQueryString().substring(keyOffset)
+                        : super.getQueryString();
+            }
         };
     }
 

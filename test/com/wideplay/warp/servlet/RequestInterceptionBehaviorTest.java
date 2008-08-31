@@ -89,6 +89,12 @@ public class RequestInterceptionBehaviorTest {
                 .once();
 
 
+        //no conv
+        expect(request.getQueryString())
+                .andReturn(null);
+
+
+
 
         //run mock script ***
         replay(request, filterConfig, servletContext);

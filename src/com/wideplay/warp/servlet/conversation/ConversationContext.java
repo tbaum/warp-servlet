@@ -6,20 +6,16 @@ import com.google.inject.Key;
 import java.io.Serializable;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Jan 1, 2008
- * Time: 7:03:53 PM
- *
+ * 
  * <p>
  * An artifact that represents a single conversation instance. Objects managed
  * by the guice injector are placed inside a ConversationContext and associated
  * with a Key from which they may later be retrieved.
  *
- * ConversationContexts are created, managed and destroyed entirely by a ConversationStore
- * and as such is a part of the implementation of ConversationStore. For example, if a custom
- * ConversationStore persists conversations inside a disk cache, then it may provide an
- * implementation of ConversationContext that is serializable.
+ * ConversationContexts are created, managed and destroyed entirely by a ConversationManager
+ * and as such is a part of the implementation of ConversationManager. For example, if a custom
+ * ConversationManager persists conversations inside a disk cache, then it may provide an
+ * implementation of ConversationContext that is serializable to the disk cache.
  *
  * ConversationContexts are lost (i.e. destroyed) when their associated conversation ends.
  * This interface is typically never exposed to client code and is intended to be used internally.
@@ -27,17 +23,39 @@ import java.io.Serializable;
  * </p>
  *
  * <p>
- * Default impl stores instances in a thread UNSAFE hashmap. You should not need to change the
- * default impl too much even with customized stores. Certainly, do not add synchronization behavior
- * unless you have a very specific reason.
+ * Default impl stores instances in a thread UNSAFE hashmap. Certainly, do not add synchronization behavior
+ *  unless you have a very specific reason.
  * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
- * @see com.wideplay.warp.servlet.conversation.ConversationStore
+ * @see ConversationManager
  */
-@ImplementedBy(HashMapConversationContext.class)
+@ImplementedBy(InMemoryConversationContext.class)
 public interface ConversationContext extends Serializable {
+    /**
+     *
+     * The default impl simply obtains the associated instance from memory.
+     *
+     * Custom impls of ConversationManager will override this method and use it
+     *  to obtain instances that have been serialized to disk, cluster cache or similar
+     *  persistent store.
+     *
+     * @param key The Guice key to the conv-scoped instance being asked for.
+     * @return Returns the associated instance if one is present, or null.
+     */
     <T> T get(Key<T> key);
 
+    /**
+     *
+     * The default impl simply obtains the associated instance from memory.
+     *
+     * Custom impls of ConversationManager will override this method and use it
+     *  to store instances by serializing them to disk, cluster cache or similar
+     *  persistent store, for example. This is called everytime a new instance is created
+     *  for a conversation and is thus the ideal hook to trigger the storage. 
+     *
+     * @param key The Guice key to the conv-scoped instance being stashed into this conv.
+     * @param t The associated instance for *this* conversation .
+     */
     <T> void put(Key<T> key, T t);
 }

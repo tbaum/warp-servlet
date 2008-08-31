@@ -65,6 +65,7 @@ public final class WebFilter implements Filter {
             ContextManager.setInjector(injector);
         }
 
+
         //initialize all registered filters & servlets in that order
         injector.getInstance(ManagedFilterPipeline.class)
                 .initPipeline(servletContext, injector);

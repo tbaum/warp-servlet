@@ -7,17 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 23, 2007
- * Time: 4:47:49 PM
  *
- * A single-thread hashmap impl of a SINGLE conversation (and its set of objects).
+ * A single-thread hashmap impl of a SINGLE conversation context (and its set of keys/instances).
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
  */
 @NotThreadSafe
-class HashMapConversationContext implements ConversationContext {
+class InMemoryConversationContext implements ConversationContext {
     private final Map<String, Object> objects = new HashMap<String, Object>();
 
     @SuppressWarnings("unchecked")

@@ -6,11 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Created with IntelliJ IDEA.
- * User: dhanji
- * Date: Dec 19, 2007
- * Time: 2:30:59 PM
- *
  * <p>
  *  Scope for Conversations (long-running contextual requests typically from the same user, but not necessarily).
  * Not bound by default, use if you wish by adding this line to your Guice module:
@@ -22,10 +17,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * <p>
  * Conversation support in Warp-servlet is highly configurable. Unlike servlet HTTP sessions, conversations do not
- * have to live temporally in the JVM. A Persistent store is easily configured (example, a disk cache). The strategy
- * for continuing conversations (i.e. contextualizing requests by a particular conversation) is also pluggable
- * between URL-rewriting, Cookies and even pseudo-continuation by transparent use of the HTTP session's continuation
- * strategy. These are provided out of the box, but you can also roll your own.
+ * have to live temporally in the JVM. A conversation store is easily configured (example, a disk or cluster cache).
  *
  * </p>
  *
@@ -37,7 +29,7 @@ import java.lang.annotation.RetentionPolicy;
  * </p>
  *
  * @author Dhanji R. Prasanna (dhanji gmail com)
- * @see com.wideplay.warp.servlet.conversation.Conversation
+ * @see com.wideplay.warp.servlet.Conversation
  */
 @ScopeAnnotation
 @Retention(RetentionPolicy.RUNTIME)

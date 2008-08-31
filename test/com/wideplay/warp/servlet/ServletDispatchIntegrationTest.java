@@ -64,6 +64,12 @@ public class ServletDispatchIntegrationTest {
                 .times(1);
 
 
+        //no conv
+        expect(requestMock.getQueryString())
+                .andReturn(null);
+
+
+
         //dispatch request
         replay(requestMock);
 
@@ -107,6 +113,12 @@ public class ServletDispatchIntegrationTest {
                 .andReturn("/index.html")
                 .times(2);
 
+
+        //no conv
+        expect(requestMock.getQueryString())
+                .andReturn(null);
+
+        
 
         //dispatch request
         replay(requestMock);

@@ -42,6 +42,8 @@ public class FilterPipelineTest {
                 
                 .buildModule()
         );
+
+        ContextManager.setInjector(null);
     }
 
     @Test
@@ -66,6 +68,12 @@ public class FilterPipelineTest {
         expect(request.getServletPath())
                 .andReturn("/public/login.jsp")
                 .anyTimes();
+
+
+        //no conv
+        expect(request.getQueryString())
+                .andReturn(null);
+
 
         //at the end, proceed down webapp's normal filter chain
         proceedingFilterChain.doFilter(isA(HttpServletRequest.class), (ServletResponse) isNull());

@@ -61,6 +61,11 @@ public class FilterDispatchIntegrationTest {
                 .times(5);
 
 
+        //no conv
+        expect(requestMock.getQueryString())
+                .andReturn(null);
+
+
         //dispatch request
         replay(requestMock);
 
@@ -102,6 +107,9 @@ public class FilterDispatchIntegrationTest {
                 .andReturn("/index.xhtml")
                 .times(5);
 
+        expect(requestMock.getQueryString())
+                .andReturn(null);
+
 
         //dispatch request
         replay(requestMock);
@@ -142,6 +150,11 @@ public class FilterDispatchIntegrationTest {
                 .andReturn("/index")
                 .times(3);
 
+
+        //no conv
+        expect(requestMock.getQueryString())
+                .andReturn(null);
+        
 
         //dispatch request
         replay(requestMock);
