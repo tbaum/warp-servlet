@@ -30,6 +30,7 @@ import java.util.UUID;
 class UrlRewrittenConversation implements Conversation {
     static final String CONVERSATION_ID = "wconvid";
     private static final String CONVERSATION_KEY_STRING = String.format(";%s=", CONVERSATION_ID);
+    private static final String CONVERSATION_ID_TEMPLATE = CONVERSATION_KEY_STRING + "%s";
 
     private final ConversationManager conversationManager;
 
@@ -48,7 +49,7 @@ class UrlRewrittenConversation implements Conversation {
     }
 
     public void end() {
-        final String conversationKey = (String) ContextManager.getRequest().getAttribute(CONVERSATION_ID);
+        final String conversationKey = currentConversationKey();
 
         //why did you call end? =)
         if (null == conversationKey)
@@ -63,10 +64,15 @@ class UrlRewrittenConversation implements Conversation {
         conversationManager.endConversation(conversationKey);
     }
 
-    public String rewrite(String url) {
-        //TODO need to fix this
+    private static String currentConversationKey() {
+        return (String) ContextManager.getRequest().getAttribute(CONVERSATION_ID);
+    }
 
-        return url;
+    public String rewrite(String url) {
+        //TODO Should we fix this so that it is idempotent...
+
+        //append conversation id to the URL
+        return url + String.format(CONVERSATION_ID_TEMPLATE, currentConversationKey());
     }
 
     @NotNull

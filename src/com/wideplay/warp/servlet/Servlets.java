@@ -123,6 +123,39 @@ public final class Servlets {
      * </pre>
      *
      * </p>
+     *
+     *
+     * <h3>Lifecycle events</h3>
+     * <p>
+     *  Warp-servlet also allows you to hook into the servlet lifecycle independent of
+     * servlets and filters. This is preferable to ServletContextListeners provided by the
+     * Servlet API because you can take advantage of Guice dependency injection.
+     *
+     * It is also a perfect place to startup and shutdown your warp-persist driven
+     * persistence layer, and any other finite resources your application requires.
+     * Register an subclass of {@code com.wideplay.warp.servlet.LifecycleListener} in the
+     * warp-servlet injector configuration as follows:
+     *
+     * <pre>
+     *
+     *   Guice.createInjector(..., Servlets.configure()
+     *      .filters()
+     *          .filter("/*").through(MyFilter.class)
+     *          .filter("*.css").through(MyCssFilter.class)
+     *          //etc..
+     *
+     *      .servlets()
+     *          .serve("*.html").with(MyServlet.class)
+     *          .serve("/my/*").with(MyServlet.class)
+     *          //etc..
+     *
+     *      <b>.listen(MyLifecycleListener.class)</b>
+     *
+     *      .buildModule();
+     * </pre>
+     *
+     * </p>
+     *
      * <h3>Binding Guice Keys</h3>
      *
      * <p>
