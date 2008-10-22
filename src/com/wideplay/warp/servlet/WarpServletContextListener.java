@@ -32,7 +32,7 @@ import javax.servlet.ServletContextListener;
  */
 public abstract class WarpServletContextListener implements ServletContextListener {
 
-    static final String INJECTOR_NAME = Injector.class.getName();
+    public static final String INJECTOR_NAME = Injector.class.getName();
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
