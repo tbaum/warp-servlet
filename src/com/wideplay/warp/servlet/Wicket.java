@@ -1,7 +1,7 @@
 package com.wideplay.warp.servlet;
 
 import com.google.inject.Injector;
-import com.google.inject.util.Objects;
+import com.google.inject.internal.Preconditions;
 import org.apache.wicket.Application;
 import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.WicketFilter;
@@ -14,7 +14,7 @@ public final class Wicket {
     }
 
     public static GuiceComponentInjector integrate(Application wicketApplication) {
-        Objects.nonNull(wicketApplication, "Must provide a valid " + Application.class.getName()
+        Preconditions.checkNotNull(wicketApplication, "Must provide a valid " + Application.class.getName()
                 + " to integrate with warp-servlet (was null)");
         final Injector injector = ContextManager.getInjector();
 
